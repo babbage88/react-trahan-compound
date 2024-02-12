@@ -1,46 +1,9 @@
-# Getting Started with Create React App
+# Trahan Compound Interest
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a simple compound interest calculator that I built in React. I copied some of the components and main App.css from this repo, since I'm not well versed in frontend and do mostly backend and C#/.Net in my day job: https://github.com/jamezmca/compound-calc which itself was made as React beginner project. I did this to help learn react/frontend for some side projects. I want to create an expanded financial planning/wealth management app that will utilize various public API's and will probably rebuild all components from scratch.
 
-## Available Scripts
+## Typescript and future changes
 
-In the project directory, you can run:
+I have migrated the main app component from jsx to .tsx and changed NumericInput (so I didn't have to use ParseInt() on a string to do cacluations) component to TypeScript. I plan to convert all components of the app to TypScript eventually, but for now will focus on the UI and better features like custom asset allocation, historical equity data, and future forcasting. I will probably eventually do this via a proper backend webapi in a language that is better suited for such a task than JS/TS, like C#, Go, Java, or basically anything else. Although, just for the fun of learning more js/ts, I may try building a cheap to host version that does as much as I feasibly can in the client side, so that I can host from an S3 buckket cheaply.
 
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Thanks for coming to my TED talk.
