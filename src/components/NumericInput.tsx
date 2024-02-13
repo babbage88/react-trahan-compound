@@ -1,4 +1,6 @@
 import React from 'react';
+import { Input } from "@/components/ui/input"
+
 
 interface NumericInputProps {
   title: string;
@@ -11,7 +13,7 @@ const NumericInput: React.FC<NumericInputProps> = ({ title, symbol, value, setVa
   return (
     <div className="flex flex-col gap-1">
       <h3>{title} ({symbol})</h3>
-      <input
+      <Input
         type="number"
         className=""
         value={value}
