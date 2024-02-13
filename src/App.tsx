@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
 
-import Layout from "./components/Layout"
+import Layout from "@/components/Layout"
 import NumericInput from './components/NumericInput'
 import SliderInput from './components/SliderInput'
 import CalculateButton from './components/CalculateButton'
 import CalculatedAmounts from './components/CalculatedAmounts'
-
 
 function App() {
   const [initAmount, setInitAmount] = useState<number>(0);
@@ -17,6 +16,7 @@ function App() {
 
   function calculateCompoundInterest() {
     let total: number = initAmount
+    // eslint-disable-next-line prefer-const
     let annualContribution: number = monthlyContribution * 12
     for (let i = 0; i < numberOfYears; i++) {
       total = total + annualContribution

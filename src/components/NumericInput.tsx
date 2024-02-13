@@ -13,7 +13,7 @@ const NumericInput: React.FC<NumericInputProps> = ({ title, symbol, value, setVa
       <h3>{title} ({symbol})</h3>
       <input
         type="number"
-        className="outline-none focus:outline-none bg-transparent text-white text-xs sm:text-sm duration-200 border border-transparent border-solid bg-slate-950 p-2 rounded hover:border-blue-700 focus:border-blue-500"
+        className=""
         value={value}
         onChange={(e) => {
           setValue(Number(e.target.value));
