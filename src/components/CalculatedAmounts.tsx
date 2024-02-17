@@ -1,13 +1,18 @@
+import { YearlyTotals, columns } from "./ui/columns";
+import { DataTable } from "@/components/ui/data-table" 
+
+
 interface Props {
   finalValue: number;
   reset: () => void;
   monthlyContribution: number;
   numberOfYears: number;
   initAmount: number;
+  tabledata: YearlyTotals[]
 }
 
 export default function CalculatedAmounts(props: Props): JSX.Element {
-  const { finalValue, reset, monthlyContribution, numberOfYears, initAmount } = props;
+  const { finalValue, reset, monthlyContribution, numberOfYears, initAmount, tabledata } = props;
   if (!finalValue) {
     return <div></div>;
   }
@@ -30,6 +35,7 @@ export default function CalculatedAmounts(props: Props): JSX.Element {
       {Object.keys(amounts).map((amount, amountIndex) => {
         return (
           <div key={amountIndex} className="flex items-center gap-2">
+            <DataTable columns={columns} data={tabledata} />
             <h2 className="text-lg font-semibold sm:text-xl md:text-2xl ">{amount}</h2>
             <p>{amounts[amount]}</p>
           </div>
