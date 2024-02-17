@@ -17,7 +17,8 @@ export default function CalculatedAmounts(props: Props): JSX.Element {
   const finalValuestring = finalValue.toLocaleString("en-US", {style: "currency", currency: "USD",  maximumFractionDigits:2})
   const ordniaryAmmountNum = numberOfYears * monthlyContribution * 12 + initAmount
   const ordString = ordniaryAmmountNum.toLocaleString("en-US", {style: "currency", currency: "USD",  maximumFractionDigits:2})
-  const diffAmountString = (finalValue - (numberOfYears * monthlyContribution * 12 + initAmount)).toLocaleString("en-US", {style: "currency", currency: "USD", maximumFractionDigits:2})
+  const diffAmountString = (finalValue - (numberOfYears * monthlyContribution * 12 + initAmount))
+  .toLocaleString("en-US", {style: "currency", currency: "USD", maximumFractionDigits:2})
 
   console.log(numberOfYears, monthlyContribution, initAmount);
   const amounts: {[key: string]: string} = {
