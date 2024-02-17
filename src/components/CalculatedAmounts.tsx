@@ -1,5 +1,3 @@
-import React from 'react';
-
 interface Props {
   finalValue: number;
   reset: () => void;
