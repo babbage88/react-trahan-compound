@@ -21,11 +21,13 @@ const NumericInput: React.FC<NumericInputProps> = ({ title, symbol, value, setVa
   };
 
   return (
-    <div className="flex flex-col gap-1">
-      <h3>{title} ({symbol})</h3>
+    <div className="flex flex-col w-1/5 gap-1 space-y-2 space-x-2 py-4">
+      <div className='px-3'>
+        <h3>{title} ({symbol})</h3>
+      </div>
       <Input
         type="number"
-        className=""
+        className="flex flex-col gap-1"
         defaultValue={value}
         onChange={(e) => {
           setValue(Number(e.target.value));
