@@ -5,7 +5,6 @@ import NumericInput from './components/NumericInput'
 import SliderInput from './components/SliderInput'
 import CalculateButton from './components/CalculateButton'
 import CalculatedTable from './components/CalculatedTable'
-import DemoPage from './components/ui/table-page'
 import { YearlyTotals } from "@/components/ui/columns"
 
 
@@ -58,7 +57,6 @@ function App() {
           <NumericInput title={'Monthly Contribution'} symbol={'$'} value={monthlyContribution} setValue={setMonthlyContribution} />
           <NumericInput title={'Interest Rate'} symbol={'%'} value={interestRate} setValue={setInterestRate} />
           <SliderInput title={'Number of Years'} value={numberOfYears} setValue={setNumberOfYears} />
-          <DemoPage />
           <CalculateButton evaluate={calculateCompoundInterest} />
         </>
       )}

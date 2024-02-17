@@ -12,13 +12,11 @@ interface Props {
   tabledata: YearlyTotals[]
 }
 
-export default function CalculatedAmounts(props: Props): JSX.Element {
+export default function CalculatedTable(props: Props): JSX.Element {
   const { finalValue, reset, monthlyContribution, numberOfYears, initAmount, tabledata } = props;
   if (!finalValue) {
     return <div></div>;
   }
-
-
 
   console.log(numberOfYears, monthlyContribution, initAmount);
   
