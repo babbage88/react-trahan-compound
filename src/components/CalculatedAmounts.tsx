@@ -20,9 +20,9 @@ export default function CalculatedAmounts(props: Props): JSX.Element {
 
   console.log(numberOfYears, monthlyContribution, initAmount);
   const amounts: {[key: string]: string} = {
-    'Compounded Amount': finalValuestring,
-    'Ordinary Amount': ordString,
-    'Difference': diffAmountString,
+    'Total Compounded Amount:': finalValuestring,
+    'Money Invested:': ordString,
+    'Gain from interest:': diffAmountString,
   };
 
   return (
