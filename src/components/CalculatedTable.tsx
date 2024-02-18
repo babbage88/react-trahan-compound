@@ -1,24 +1,34 @@
 import { YearlyTotals, columns } from "./ui/columns";
+import { useLocation } from 'react-router-dom';
 import { DataTable } from "@/components/ui/data-table" 
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
+export default function CalculatedTable(): JSX.Element {
+  const location = useLocation();
+  const navigate = useNavigate();
 
-interface Props {
-  finalValue: number;
-  reset: () => void;
-  monthlyContribution: number;
-  numberOfYears: number;
-  initAmount: number;
-  tabledata: YearlyTotals[]
-}
+  // Access props passed from CompoundInterestCalculator component
+  const {
+    finalValue,
+    numberOfYears,
+    monthlyContribution,
+    initAmount,
+    tabledata
+  } = location.state as {
+    finalValue: number | null;
+    numberOfYears: number;
+    monthlyContribution: number;
+    initAmount: number;
+    tabledata: YearlyTotals[];
+  };
 
-export default function CalculatedTable(props: Props): JSX.Element {
-  const { finalValue, reset, monthlyContribution, numberOfYears, initAmount, tabledata } = props;
-  if (!finalValue) {
-    return <div></div>;
-  }
-
-  console.log(numberOfYears, monthlyContribution, initAmount);
+  
+  const reset = () => {
+    // Navigate back to the CompoundInterestCalculator component
+    navigate('/');
+  };
+  console.log(numberOfYears, monthlyContribution, initAmount, finalValue);
   
 
   return (
