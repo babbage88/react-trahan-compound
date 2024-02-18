@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Input } from "@/components/ui/input"
+import { useEffect } from 'react';
 
 
 interface NumericInputProps {
@@ -12,6 +13,14 @@ interface NumericInputProps {
 
 const NumericInput: React.FC<NumericInputProps> = ({ title, symbol, value, setValue }) => {
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // Update input value when the value prop changes
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.value = String(value);
+    }
+  }, [value]);
+
 
   const handleClick = () => {
     if (inputRef.current) {

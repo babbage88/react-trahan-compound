@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useNavigate} from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import NumericInput from './NumericInput';
 import SliderInput from './SliderInput';
 import CalculateButton from './CalculateButton';
@@ -7,13 +7,23 @@ import { YearlyTotals } from "@/components/ui/columns";
 
 const CompoundInterestCalculator = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [initAmount, setInitAmount] = useState<number>(0);
   const [monthlyContribution, setMonthlyContribution] = useState<number>(0);
   const [interestRate, setInterestRate] = useState<number>(0);
   const [numberOfYears, setNumberOfYears] = useState<number>(0);
-  const [finalValue, setFinalValue] = useState<number | null>(null);
   const [tabledata, setTableData] = useState<YearlyTotals[]>([]);
+
+  useEffect(() => {
+    if (location.state) {
+      const { initAmount, monthlyContribution, interestRate, numberOfYears } = location.state;
+      if (initAmount) setInitAmount(initAmount);
+      if (monthlyContribution) setMonthlyContribution(monthlyContribution);
+      if (interestRate) setInterestRate(interestRate);
+      if (numberOfYears) setNumberOfYears(numberOfYears);
+    }
+  }, [location.state]);
 
   function calculateCompoundInterest() {
     let total: number = initAmount;
@@ -31,15 +41,14 @@ const CompoundInterestCalculator = () => {
         gainfromint: total - (initAmount + (annualContribution * i))
       });
     }
-    setFinalValue(total);
     setTableData(yearlyTotals);
     navigate('/calculated', {
         state: {
-          finalValue,
           numberOfYears,
           monthlyContribution,
           initAmount,
-          tabledata
+          tabledata,
+          interestRate
         }
       }); // Navigate to calculated page after calculation
   }
