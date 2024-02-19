@@ -13,7 +13,7 @@ const SliderInput: React.FC<SliderInputProps> = ({ title, value, setValue }) => 
       <input
         type="range"
         min="1"
-        max="60"
+        max="120"
         value={value}
         onChange={(e: ChangeEvent<HTMLInputElement>) => {
           setValue(parseInt(e.target.value, 10));

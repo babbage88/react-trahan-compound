@@ -10,11 +10,16 @@ export type YearlyTotals = {
   export const columns: ColumnDef<YearlyTotals>[] = [
     {
         accessorKey: "year",
-        header: "Year",
+        header: () => <div className="text-left">Year</div>,
+        cell: ({ row }) => {
+            const year = new Date().getFullYear() + Number(row.getValue("year"))
+ 
+            return <div className="text-left font-medium">{year}</div>
+        },
     },
     {
         accessorKey: "contributions",
-        header: () => <div className="text-right">Contributions</div>,
+        header: () => <div className="text-right">Total Contributions</div>,
         cell: ({ row }) => {
             const contributions = parseFloat(row.getValue("contributions"))
             const formatted = new Intl.NumberFormat("en-US", {
@@ -27,7 +32,7 @@ export type YearlyTotals = {
     },
     {
         accessorKey: "gainfromint",
-        header: () => <div className="text-right">Gains</div>,
+        header: () => <div className="text-right">Gains From Growth</div>,
         cell: ({ row }) => {
             const gains = parseFloat(row.getValue("gainfromint"))
             const formatted = new Intl.NumberFormat("en-US", {
