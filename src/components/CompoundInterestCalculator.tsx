@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { Label } from '@radix-ui/react-dropdown-menu';
 import NumericInput from './NumericInput';
-import SliderInput from './SliderInput';
+import { Slider } from '@/components/ui/slider'
 import CalculateButton from './CalculateButton';
 import { YearlyTotals } from "@/components/ui/columns";
 import {
@@ -20,7 +21,7 @@ const CompoundInterestCalculator = () => {
   const [initAmount, setInitAmount] = useState<number>(0);
   const [monthlyContribution, setMonthlyContribution] = useState<number>(0);
   const [interestRate, setInterestRate] = useState<number>(0);
-  const [numberOfYears, setNumberOfYears] = useState<number>(0);
+  const [numberOfYears, setNumberOfYears] = useState<number>(7);
   const [tabledata, setTableData] = useState<YearlyTotals[]>([]);
 
   useEffect(() => {
@@ -94,7 +95,10 @@ const CompoundInterestCalculator = () => {
           </AccordionContent>
         </AccordionItem>
       </Accordion>
-      <SliderInput title={'Number of Years'} value={numberOfYears} setValue={setNumberOfYears} />
+      <Label className='flex pl-3'>Years: {numberOfYears}</Label>
+      <Slider max={100} step={1} defaultValue={[numberOfYears]} className='flex pl-3' onValueChange={(e) => {
+          setNumberOfYears(Number(e));
+        }}/>
       <CalculateButton evaluate={calculateCompoundInterest} className='flex space-y-2 space-x-2 py-4 justify-center'/>
     </div>
   );

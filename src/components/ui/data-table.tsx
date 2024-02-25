@@ -30,7 +30,7 @@ import {
     })
    
     return (
-      <div className="rounded-md border">
+      <div className="rounded-md border bg-slate-50">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
