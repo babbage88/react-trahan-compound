@@ -1,19 +1,38 @@
-import { useState } from 'react';
-import { useNavigate} from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { Label } from '@radix-ui/react-dropdown-menu';
 import NumericInput from './NumericInput';
-import SliderInput from './SliderInput';
+import { Slider } from '@/components/ui/slider'
 import CalculateButton from './CalculateButton';
 import { YearlyTotals } from "@/components/ui/columns";
+import {
+    Accordion,
+    AccordionContent,
+    AccordionItem,
+    AccordionTrigger,
+  } from "@/components/ui/accordion"
+  
+  
 
 const CompoundInterestCalculator = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [initAmount, setInitAmount] = useState<number>(0);
   const [monthlyContribution, setMonthlyContribution] = useState<number>(0);
   const [interestRate, setInterestRate] = useState<number>(0);
-  const [numberOfYears, setNumberOfYears] = useState<number>(0);
-  const [finalValue, setFinalValue] = useState<number | null>(null);
+  const [numberOfYears, setNumberOfYears] = useState<number>(7);
   const [tabledata, setTableData] = useState<YearlyTotals[]>([]);
+
+  useEffect(() => {
+    if (location.state) {
+      const { initAmount, monthlyContribution, interestRate, numberOfYears } = location.state;
+      if (initAmount) setInitAmount(initAmount);
+      if (monthlyContribution) setMonthlyContribution(monthlyContribution);
+      if (interestRate) setInterestRate(interestRate);
+      if (numberOfYears) setNumberOfYears(numberOfYears);
+    }
+  }, [location.state]);
 
   function calculateCompoundInterest() {
     let total: number = initAmount;
@@ -31,27 +50,57 @@ const CompoundInterestCalculator = () => {
         gainfromint: total - (initAmount + (annualContribution * i))
       });
     }
-    setFinalValue(total);
     setTableData(yearlyTotals);
     navigate('/calculated', {
         state: {
-          finalValue,
           numberOfYears,
           monthlyContribution,
           initAmount,
-          tabledata
+          tabledata,
+          interestRate
         }
       }); // Navigate to calculated page after calculation
   }
 
   return (
-    <>
-      <NumericInput title={'Initial Amount'} symbol={'$'} value={initAmount} setValue={setInitAmount} />
-      <NumericInput title={'Monthly Contribution'} symbol={'$'} value={monthlyContribution} setValue={setMonthlyContribution} />
-      <NumericInput title={'Interest Rate'} symbol={'%'} value={interestRate} setValue={setInterestRate} />
-      <SliderInput title={'Number of Years'} value={numberOfYears} setValue={setNumberOfYears} />
-      <CalculateButton evaluate={calculateCompoundInterest} />
-    </>
+    <div className="flex flex-col justify-center w-1/3">
+      <NumericInput
+        title={'Initial Amount'}
+        symbol={'$'}
+        value={initAmount}
+        className='container space-y-1 space-x-2 pl-2 mb-2 gap-1'
+        placeholder='Initial Amount'
+        setValue={setInitAmount}
+      />
+      <NumericInput
+        title={'Interest Rate'}
+        symbol={'%'}
+        value={interestRate}
+        className='container space-y-1 space-x-2 pl-2 mb-2'
+        placeholder='Interest Rate'
+        setValue={setInterestRate}
+      />
+      <Accordion type="single" collapsible className='container space-y-2 space-x-2 pl-2 ml-2 gap-1 hover:outline-2'>
+        <AccordionItem value="item-1">
+          <AccordionTrigger className='space-y-2 space-x-2 pl-1 gap-1 text-sm'>Add Monthly Contribution</AccordionTrigger>
+          <AccordionContent>
+           <NumericInput
+              title={'Monthly Contribution'}
+              symbol={'$'}
+              value={monthlyContribution}
+              className='flex justify-center flex-col'
+              placeholder='Monthly Contribution'
+              setValue={setMonthlyContribution}
+            />
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+      <Label className='flex pl-3 pt-4'>Years: {numberOfYears}</Label>
+      <Slider max={100} step={1} defaultValue={[numberOfYears]} className='container pl-4 pt-2' onValueChange={(e) => {
+          setNumberOfYears(Number(e));
+        }}/>
+      <CalculateButton evaluate={calculateCompoundInterest} className='flex space-y-2 space-x-2 py-4 justify-center'/>
+    </div>
   );
 }
 

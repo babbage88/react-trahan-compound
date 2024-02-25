@@ -1,17 +1,30 @@
 import React, { useRef } from 'react';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Input } from "@/components/ui/input"
+import { Input } from "@/components/ui/input";
+import { useEffect } from 'react';
+import { Label } from '@radix-ui/react-dropdown-menu';
 
 
 interface NumericInputProps {
   title: string;
   symbol: string;
   value: number;
+  className?: string;
+  placeholder?: string;
   setValue: (value: number) => void;
+  
 }
 
-const NumericInput: React.FC<NumericInputProps> = ({ title, symbol, value, setValue }) => {
+const NumericInput: React.FC<NumericInputProps> = ({ title, symbol, value, className, placeholder, setValue  }) => {
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // Update input value when the value prop changes
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.value = String(value);
+    }
+  }, [value]);
+
 
   const handleClick = () => {
     if (inputRef.current) {
@@ -20,19 +33,22 @@ const NumericInput: React.FC<NumericInputProps> = ({ title, symbol, value, setVa
     }
   };
 
+ 
+
   return (
-    <div className="flex flex-col w-1/5 gap-1 space-y-2 space-x-2 py-4">
-      <div className='px-3'>
-        <h3>{title} ({symbol})</h3>
-      </div>
+    <div className={className}>
+      
+       <Label className='tracking-tight pl-3'>{title} ({symbol})</Label>
+      
       <Input
         type="number"
-        className="flex flex-col gap-1"
+        className={"flex gap-1"}
         defaultValue={value}
         onChange={(e) => {
           setValue(Number(e.target.value));
         }}
         ref={inputRef}
+        placeholder={placeholder}
         onFocus={handleClick}
       />
     </div>

@@ -1,8 +1,22 @@
 import { YearlyTotals, columns } from "./ui/columns";
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { DataTable } from "@/components/ui/data-table" 
 import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router-dom";
+
+function EditResetButtons({ onEdit, onReset }: { onEdit: () => void; onReset: () => void; }) {
+  return (
+    <div className="flex justify-between items-center p-2">
+      <div>
+        <Button onClick={onEdit} className="mr-4">
+          <h4>Edit</h4>
+        </Button>
+        <Button onClick={onReset}>
+          <h4>Reset</h4>
+        </Button>
+      </div>
+    </div>
+  );
+}
 
 export default function CalculatedTable(): JSX.Element {
   const location = useLocation();
@@ -10,38 +24,45 @@ export default function CalculatedTable(): JSX.Element {
 
   // Access props passed from CompoundInterestCalculator component
   const {
-    finalValue,
     numberOfYears,
     monthlyContribution,
     initAmount,
-    tabledata
+    tabledata,
+    interestRate
   } = location.state as {
-    finalValue: number | null;
     numberOfYears: number;
     monthlyContribution: number;
     initAmount: number;
     tabledata: YearlyTotals[];
+    interestRate: number;
   };
 
-  
   const reset = () => {
     // Navigate back to the CompoundInterestCalculator component
     navigate('/');
   };
-  console.log(numberOfYears, monthlyContribution, initAmount, finalValue);
+
+  const handleEdit = () => {
+    // Navigate back to the CompoundInterestCalculator component with current values
+    navigate('/', {
+      state: {
+        numberOfYears,
+        monthlyContribution,
+        initAmount,
+        interestRate
+      }
+    });
+  };
+  console.log(numberOfYears, monthlyContribution, initAmount, interestRate);
   
 
   return (
     <div className="container mx-auto py-10">
+      <EditResetButtons onEdit={handleEdit} onReset={reset} />
+
       <DataTable columns={columns} data={tabledata} />
 
-      <Button
-        onClick={reset}
-      >
-        <h4>
-          Reset
-        </h4>
-      </Button>
+      <EditResetButtons onEdit={handleEdit} onReset={reset} />
     </div>
   );
 }
