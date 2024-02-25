@@ -63,12 +63,12 @@ const CompoundInterestCalculator = () => {
   }
 
   return (
-    <div className="flex flex-col justify-center w-1/5">
+    <div className="flex flex-col justify-center w-1/3">
       <NumericInput
         title={'Initial Amount'}
         symbol={'$'}
         value={initAmount}
-        className='space-y-1 space-x-2 pl-2 mb-2 gap-1'
+        className='container space-y-1 space-x-2 pl-2 mb-2 gap-1'
         placeholder='Initial Amount'
         setValue={setInitAmount}
       />
@@ -76,11 +76,11 @@ const CompoundInterestCalculator = () => {
         title={'Interest Rate'}
         symbol={'%'}
         value={interestRate}
-        className='space-y-1 space-x-2 pl-2 mb-2'
+        className='container space-y-1 space-x-2 pl-2 mb-2'
         placeholder='Interest Rate'
         setValue={setInterestRate}
       />
-      <Accordion type="single" collapsible className='space-y-2 space-x-2 pl-2 ml-2 gap-1 hover:outline-2'>
+      <Accordion type="single" collapsible className='container space-y-2 space-x-2 pl-2 ml-2 gap-1 hover:outline-2'>
         <AccordionItem value="item-1">
           <AccordionTrigger className='space-y-2 space-x-2 pl-1 gap-1 text-sm'>Add Monthly Contribution</AccordionTrigger>
           <AccordionContent>
@@ -95,8 +95,8 @@ const CompoundInterestCalculator = () => {
           </AccordionContent>
         </AccordionItem>
       </Accordion>
-      <Label className='flex pl-3'>Years: {numberOfYears}</Label>
-      <Slider max={100} step={1} defaultValue={[numberOfYears]} className='flex pl-3' onValueChange={(e) => {
+      <Label className='flex pl-3 pt-4'>Years: {numberOfYears}</Label>
+      <Slider max={100} step={1} defaultValue={[numberOfYears]} className='container pl-4 pt-2' onValueChange={(e) => {
           setNumberOfYears(Number(e));
         }}/>
       <CalculateButton evaluate={calculateCompoundInterest} className='flex space-y-2 space-x-2 py-4 justify-center'/>
