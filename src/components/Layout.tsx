@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import { ModeToggle } from './ui/mode-toggle';
 
 interface LayoutProps {
     children: ReactNode;
@@ -7,8 +8,9 @@ interface LayoutProps {
 export default function Layout(props: LayoutProps): JSX.Element {
     const { children } = props;
     return (
-        <div className='min-h-screen gap-10 sm:gap-12 md:gap-5 bg-slate-50'>
+        <div className='min-h-screen gap-10 sm:gap-12 md:gap-5 bg-background'>
             <header className=''>
+                <ModeToggle />
                 <h1 className='text-4xl sm:text-5xl md:text-4xl font-semibold text-center text-slate-800'> Compound Interest Calculator </h1>
                 
             </header>
