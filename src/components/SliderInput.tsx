@@ -1,4 +1,5 @@
 import React, { ChangeEvent } from 'react';
+import { Label } from '@radix-ui/react-dropdown-menu';
 
 interface SliderInputProps {
   title: string;
@@ -8,8 +9,8 @@ interface SliderInputProps {
 
 const SliderInput: React.FC<SliderInputProps> = ({ title, value, setValue }) => {
   return (
-    <div className="flex flex-col w-1/5 gap-1 space-y-2 space-x-2 py-6">
-      <h3>{title} ({value})</h3>
+    <div className="flex flex-col gap-1 pl-2 space-y-2 space-x-2 py-6">
+      <Label className='tracking-tight pl-3'>{title} ({value})</Label>
       <input
         type="range"
         min="1"

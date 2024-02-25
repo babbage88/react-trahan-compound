@@ -4,6 +4,14 @@ import NumericInput from './NumericInput';
 import SliderInput from './SliderInput';
 import CalculateButton from './CalculateButton';
 import { YearlyTotals } from "@/components/ui/columns";
+import {
+    Accordion,
+    AccordionContent,
+    AccordionItem,
+    AccordionTrigger,
+  } from "@/components/ui/accordion"
+  
+  
 
 const CompoundInterestCalculator = () => {
   const navigate = useNavigate();
@@ -54,13 +62,41 @@ const CompoundInterestCalculator = () => {
   }
 
   return (
-    <>
-      <NumericInput title={'Initial Amount'} symbol={'$'} value={initAmount} setValue={setInitAmount} />
-      <NumericInput title={'Monthly Contribution'} symbol={'$'} value={monthlyContribution} setValue={setMonthlyContribution} />
-      <NumericInput title={'Interest Rate'} symbol={'%'} value={interestRate} setValue={setInterestRate} />
+    <div className="flex flex-col justify-center w-1/5">
+      <NumericInput
+        title={'Initial Amount'}
+        symbol={'$'}
+        value={initAmount}
+        className='space-y-1 space-x-2 pl-2 mb-2 gap-1'
+        placeholder='Initial Amount'
+        setValue={setInitAmount}
+      />
+      <NumericInput
+        title={'Interest Rate'}
+        symbol={'%'}
+        value={interestRate}
+        className='space-y-1 space-x-2 pl-2 mb-2'
+        placeholder='Interest Rate'
+        setValue={setInterestRate}
+      />
+      <Accordion type="single" collapsible className='space-y-2 space-x-2 pl-2 ml-2 gap-1 hover:outline-2'>
+        <AccordionItem value="item-1">
+          <AccordionTrigger className='space-y-2 space-x-2 pl-1 gap-1 text-sm'>Add Monthly Contribution</AccordionTrigger>
+          <AccordionContent>
+           <NumericInput
+              title={'Monthly Contribution'}
+              symbol={'$'}
+              value={monthlyContribution}
+              className='flex justify-center flex-col'
+              placeholder='Monthly Contribution'
+              setValue={setMonthlyContribution}
+            />
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
       <SliderInput title={'Number of Years'} value={numberOfYears} setValue={setNumberOfYears} />
-      <CalculateButton evaluate={calculateCompoundInterest} />
-    </>
+      <CalculateButton evaluate={calculateCompoundInterest} className='flex space-y-2 space-x-2 py-4 justify-center'/>
+    </div>
   );
 }
 
