@@ -63,7 +63,7 @@ const CompoundInterestCalculator = () => {
   }
 
   return (
-    <div className="flex flex-col container w-1/3 space-y-2">
+    <div className="flex flex-col container space-y-2">
       <NumericInput
         title={'Initial Amount'}
         symbol={'$'}

@@ -14,20 +14,12 @@ const sidebarNavItems = [
       href: "/",
     },
     {
-      title: "Account",
-      href: "/examples/forms/account",
-    },
-    {
-      title: "Appearance",
-      href: "/examples/forms/appearance",
-    },
-    {
-      title: "Notifications",
-      href: "/examples/forms/notifications",
-    },
-    {
-      title: "Display",
+      title: "Asset Allocation",
       href: "/examples/forms/display",
+    },
+    {
+        title: "Time Travel",
+        href: "/examples/forms/display",
     },
   ]
 
@@ -47,7 +39,7 @@ export default function Layout(props: LayoutProps): JSX.Element {
           <aside className="-mx-4 lg:w-1/5">
             <SidebarNav items={sidebarNavItems} />
           </aside>
-          <div className="flex-1 lg:max-w-2xl">{children}</div>
+          <div className="flex-1 lg:max-w-4xl">{children}</div>
         </div>
       </div>
         </>
