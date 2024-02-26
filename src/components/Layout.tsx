@@ -10,8 +10,8 @@ interface LayoutProps {
 
 const sidebarNavItems = [
     {
-      title: "Profile",
-      href: "/examples/forms",
+      title: "Basic Compound Calc",
+      href: "/",
     },
     {
       title: "Account",
@@ -43,23 +43,13 @@ export default function Layout(props: LayoutProps): JSX.Element {
           </p>
         </div>
         <Separator className="my-6" />
-        </div>
-        <div className='flex flex-row'>
-        <aside className="-mx-4 lg:w-1/5">
+        <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
+          <aside className="-mx-4 lg:w-1/5">
             <SidebarNav items={sidebarNavItems} />
-        </aside>
-        <div className='overflow-y-auto w-4/5 justify-end min-h-screen gap-10 sm:gap-12 md:gap-5 bg-background'>
-            <header className=''>
-                
-                <h2 className='scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0 text-center'>  </h2>
-            </header>
-            <p className='text-center text-xl text-muted-foreground'></p>
-            <main className=''>
-                {children}
-            </main>
-            <footer></footer>
+          </aside>
+          <div className="flex-1 lg:max-w-2xl">{children}</div>
         </div>
-        </div>
+      </div>
         </>
         
     );
