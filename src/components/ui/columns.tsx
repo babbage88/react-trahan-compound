@@ -4,6 +4,7 @@ export type YearlyTotals = {
     year: number
     total: number
     contributions: number
+    yearlyInterest: number
     gainfromint: number
   }
 
@@ -31,8 +32,21 @@ export type YearlyTotals = {
         },
     },
     {
+        accessorKey: "yearlyInterest",
+        header: () => <div className="text-right">Yearly Returns</div>,
+        cell: ({ row }) => {
+            const yearlyInterest = parseFloat(row.getValue("yearlyInterest"))
+            const formatted = new Intl.NumberFormat("en-US", {
+                style: "currency",
+                currency: "USD",
+            }).format(yearlyInterest)
+ 
+            return <div className="text-right font-medium">{formatted}</div>
+        },
+    },
+    {
         accessorKey: "gainfromint",
-        header: () => <div className="text-right">Gains From Growth</div>,
+        header: () => <div className="text-right">Total Gains From Growth</div>,
         cell: ({ row }) => {
             const gains = parseFloat(row.getValue("gainfromint"))
             const formatted = new Intl.NumberFormat("en-US", {

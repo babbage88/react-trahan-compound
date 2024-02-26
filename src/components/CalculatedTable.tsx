@@ -64,6 +64,10 @@ export default function CalculatedTable(): JSX.Element {
   };
   console.log(numberOfYears, monthlyContribution, initAmount, interestRate);
   
+  const finalTotal = tabledata[tabledata.length - 1].total;
+  const finyearlyGains = tabledata[tabledata.length - 1].yearlyInterest;
+
+
 
   return (
     <div className="flex flex-row">
@@ -78,11 +82,29 @@ export default function CalculatedTable(): JSX.Element {
       <div className="w-3/5">
       <Card>
           <CardHeader>
-            <CardTitle>Card Title</CardTitle>
-            <CardDescription>Card Description</CardDescription>
+            <CardTitle>Final Total</CardTitle>
+            <CardDescription>Portfolio Value at year {numberOfYears}</CardDescription>
           </CardHeader>
           <CardContent>
-            <p>Card Content</p>
+            <p>{new Intl.NumberFormat("en-US", {
+                style: "currency",
+                currency: "USD",
+            }).format(finalTotal)}</p>
+          </CardContent>
+          <CardFooter>
+            <p>Card Footer</p>
+          </CardFooter>
+       </Card>
+       <Card>
+          <CardHeader>
+            <CardTitle>Final Yearly Gains</CardTitle>
+            <CardDescription>Gains from Interest year {numberOfYears}</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p>{new Intl.NumberFormat("en-US", {
+                style: "currency",
+                currency: "USD",
+            }).format(finyearlyGains)}</p>
           </CardContent>
           <CardFooter>
             <p>Card Footer</p>
