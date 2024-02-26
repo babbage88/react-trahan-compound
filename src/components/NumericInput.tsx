@@ -38,11 +38,11 @@ const NumericInput: React.FC<NumericInputProps> = ({ title, symbol, value, class
   return (
     <div className={className}>
       
-       <Label className='tracking-tight pl-3'>{title} ({symbol})</Label>
+      <Label className='tracking-tight pl-3'>{title} ({symbol})</Label>
       
       <Input
         type="number"
-        className={"flex gap-1"}
+        className={"gap-1"}
         defaultValue={value}
         onChange={(e) => {
           setValue(Number(e.target.value));
