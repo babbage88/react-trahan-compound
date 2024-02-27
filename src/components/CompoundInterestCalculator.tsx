@@ -39,9 +39,11 @@ const CompoundInterestCalculator = () => {
     const annualContribution: number = monthlyContribution * 12;
     const yearlyTotals: YearlyTotals[] = [];
     let yearlyInterest: number = 0;
+    let yearlyIncome: number = 0;
 
     for (let i = 0; i < numberOfYears; i++) {
       yearlyInterest = (interestRate / 100) * total;
+      yearlyIncome = (interestRate / 100) * .4 * total;
       total = total + annualContribution;
       total *= 1 + interestRate / 100;
 
@@ -50,6 +52,7 @@ const CompoundInterestCalculator = () => {
         total: total,
         contributions: annualContribution * (i + 1),
         yearlyInterest: yearlyInterest,
+        yearlyIncome: yearlyIncome,
         gainfromint: total - (initAmount + (annualContribution * i))
       });
     }

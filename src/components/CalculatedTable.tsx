@@ -6,7 +6,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "./ui/card"
@@ -66,12 +65,13 @@ export default function CalculatedTable(): JSX.Element {
   
   const finalTotal = tabledata[tabledata.length - 1].total;
   const finyearlyGains = tabledata[tabledata.length - 1].yearlyInterest;
+  const finalYear = tabledata[tabledata.length - 1].year + new Date().getFullYear();
 
 
 
   return (
     <div className="flex flex-row">
-      <div className="container py-4">
+      <div className="container py-4 mr-4">
       <EditResetButtons onEdit={handleEdit} onReset={reset} />
 
       <DataTable columns={columns} data={tabledata} />
@@ -79,11 +79,11 @@ export default function CalculatedTable(): JSX.Element {
       <EditResetButtons onEdit={handleEdit} onReset={reset} />
       </div>
 
-      <div className="w-3/5">
-      <Card>
+      <div className="flex flex-row space-x-2">
+      <Card className="h-40">
           <CardHeader>
-            <CardTitle>Final Total</CardTitle>
-            <CardDescription>Portfolio Value at year {numberOfYears}</CardDescription>
+            <CardTitle className="text-sm font-medium">Total Assets</CardTitle>
+            <CardDescription className="text-sm font-small">Asset Value {finalYear}</CardDescription>
           </CardHeader>
           <CardContent>
             <p>{new Intl.NumberFormat("en-US", {
@@ -91,14 +91,11 @@ export default function CalculatedTable(): JSX.Element {
                 currency: "USD",
             }).format(finalTotal)}</p>
           </CardContent>
-          <CardFooter>
-            <p>Card Footer</p>
-          </CardFooter>
        </Card>
-       <Card>
+       <Card className="h-40">
           <CardHeader>
-            <CardTitle>Final Yearly Gains</CardTitle>
-            <CardDescription>Gains from Interest year {numberOfYears}</CardDescription>
+            <CardTitle className="text-sm font-medium">Yearly Gains</CardTitle>
+            <CardDescription className="text-sm font-small">{finalYear} Returns</CardDescription>
           </CardHeader>
           <CardContent>
             <p>{new Intl.NumberFormat("en-US", {
@@ -106,9 +103,6 @@ export default function CalculatedTable(): JSX.Element {
                 currency: "USD",
             }).format(finyearlyGains)}</p>
           </CardContent>
-          <CardFooter>
-            <p>Card Footer</p>
-          </CardFooter>
        </Card>
        </div>
     </div>
