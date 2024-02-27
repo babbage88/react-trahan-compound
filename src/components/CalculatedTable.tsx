@@ -83,9 +83,9 @@ export default function CalculatedTable(): JSX.Element {
       <Card className="h-40">
           <CardHeader>
             <CardTitle className="text-sm font-medium">Total Assets</CardTitle>
-            <CardDescription className="text-sm font-small">Asset Value {finalYear}</CardDescription>
+            <CardDescription className="text-sm font-small">{finalYear} Value</CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="font-semibold">
             <p>{new Intl.NumberFormat("en-US", {
                 style: "currency",
                 currency: "USD",
@@ -97,7 +97,7 @@ export default function CalculatedTable(): JSX.Element {
             <CardTitle className="text-sm font-medium">Yearly Gains</CardTitle>
             <CardDescription className="text-sm font-small">{finalYear} Returns</CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="font-semibold">
             <p>{new Intl.NumberFormat("en-US", {
                 style: "currency",
                 currency: "USD",
