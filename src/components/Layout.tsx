@@ -1,25 +1,48 @@
 import { ReactNode } from 'react';
 import { ModeToggle } from './ui/mode-toggle';
+import { SidebarNav } from './sidebar-nav'; 
+import { Separator } from './ui/separator'; 
+
 
 interface LayoutProps {
     children: ReactNode;
 }
 
+const sidebarNavItems = [
+    {
+      title: "Basic Compound Calc",
+      href: "/",
+    },
+    {
+      title: "Asset Allocation",
+      href: "/examples/forms/display",
+    },
+    {
+        title: "Time Travel",
+        href: "/examples/forms/display",
+    },
+  ]
+
 export default function Layout(props: LayoutProps): JSX.Element {
     const { children } = props;
     return (
-        <div className='min-h-screen gap-10 sm:gap-12 md:gap-5 bg-background'>
-            <header className=''>
-                <ModeToggle />
-                <h1 className='text-4xl sm:text-5xl md:text-4xl font-semibold text-center'>Compound Interest Calculator </h1>
-            </header>
-            <p className='text-center text-sm md:text-base'>Trahan Compund</p>
-            <main className=''>
-                {children}
-            </main>
-            <footer></footer>
+        <> 
+        <div className="hidden space-y-6 p-10 pb-16 md:block">
+        <div className="space-y-0.5">
+          <h2 className="text-2xl font-bold tracking-tight">Compound Interest Calculator  <ModeToggle /> </h2>
+          <p className="text-muted-foreground">
+          Trahan Compund
+          </p>
         </div>
-
+        <Separator className="my-6" />
+        <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
+          <aside className="-mx-4 lg:w-1/5">
+            <SidebarNav items={sidebarNavItems} />
+          </aside>
+          <div className="flex-1 lg:max-w-4xl">{children}</div>
+        </div>
+      </div>
+        </>
         
     );
 }
