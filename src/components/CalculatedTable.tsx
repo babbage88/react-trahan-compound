@@ -1,6 +1,8 @@
-import { YearlyTotals, columns } from "./ui/columns";
+import { useState } from 'react';
+import { YearlyTotals, columns } from './ui/columns';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { DataTable } from "@/components/ui/data-table" 
+import { CardDropDownSelector} from "@/components/cardDropdownSelector";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -29,6 +31,12 @@ function EditResetButtons({ onEdit, onReset }: { onEdit: () => void; onReset: ()
 export default function CalculatedTable(): JSX.Element {
   const location = useLocation();
   const navigate = useNavigate();
+  const [selectedYear, setSelectedYear] = useState<number>(1);
+  
+  
+  const handleYearChange = (year: number) => {
+    setSelectedYear(year);
+  };
 
   // Access props passed from CompoundInterestCalculator component
   const {
@@ -63,9 +71,9 @@ export default function CalculatedTable(): JSX.Element {
   };
   console.log(numberOfYears, monthlyContribution, initAmount, interestRate);
   
-  const finalTotal = tabledata[tabledata.length - 1].total;
-  const finyearlyGains = tabledata[tabledata.length - 1].yearlyInterest;
-  const finalYear = tabledata[tabledata.length - 1].year + new Date().getFullYear();
+  const finalTotal = tabledata[selectedYear - 1].total;
+  const finyearlyGains = tabledata[selectedYear - 1].yearlyInterest;
+  const finalYear = tabledata[selectedYear - 1].year + new Date().getFullYear();
 
 
 
@@ -83,7 +91,7 @@ export default function CalculatedTable(): JSX.Element {
       <Card className="h-40">
           <CardHeader>
             <CardTitle className="text-sm font-medium">Total Assets</CardTitle>
-            <CardDescription className="text-sm font-small">{finalYear} Value</CardDescription>
+            <CardDescription className="text-sm font-small">{finalYear} {selectedYear} Value</CardDescription>
           </CardHeader>
           <CardContent className="font-semibold">
             <p>{new Intl.NumberFormat("en-US", {
@@ -94,8 +102,8 @@ export default function CalculatedTable(): JSX.Element {
        </Card>
        <Card className="h-40">
           <CardHeader>
-            <CardTitle className="text-sm font-medium">Yearly Gains</CardTitle>
-            <CardDescription className="text-sm font-small">{finalYear} Returns</CardDescription>
+            <CardTitle className="text-sm font-medium justify-center text-nowrap">Yearly Gains</CardTitle>
+            <CardDescription className="text-sm font-small text-nowrap">{finalYear} Return</CardDescription>
           </CardHeader>
           <CardContent className="font-semibold">
             <p>{new Intl.NumberFormat("en-US", {
@@ -104,6 +112,7 @@ export default function CalculatedTable(): JSX.Element {
             }).format(finyearlyGains)}</p>
           </CardContent>
        </Card>
+       <CardDropDownSelector yearlyTotals={tabledata} onYearChange={handleYearChange}/>
        </div>
     </div>
   );

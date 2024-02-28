@@ -21,7 +21,7 @@ const CompoundInterestCalculator = () => {
   const [initAmount, setInitAmount] = useState<number>(0);
   const [monthlyContribution, setMonthlyContribution] = useState<number>(0);
   const [interestRate, setInterestRate] = useState<number>(0);
-  const [numberOfYears, setNumberOfYears] = useState<number>(7);
+  const [numberOfYears, setNumberOfYears] = useState<number>(0);
   const [tabledata, setTableData] = useState<YearlyTotals[]>([]);
 
   useEffect(() => {
