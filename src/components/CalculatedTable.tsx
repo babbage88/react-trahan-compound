@@ -1,6 +1,8 @@
-import { YearlyTotals, columns } from "./ui/columns";
+import { useState } from 'react';
+import { YearlyTotals, columns } from './ui/columns';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { DataTable } from "@/components/ui/data-table" 
+import { CardDropDownSelector} from "@/components/cardDropdownSelector";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -29,6 +31,12 @@ function EditResetButtons({ onEdit, onReset }: { onEdit: () => void; onReset: ()
 export default function CalculatedTable(): JSX.Element {
   const location = useLocation();
   const navigate = useNavigate();
+  const [selectedYear, setSelectedYear] = useState<number>(1);
+  
+  
+  const handleYearChange = (year: number) => {
+    setSelectedYear(year);
+  };
 
   // Access props passed from CompoundInterestCalculator component
   const {
@@ -63,9 +71,9 @@ export default function CalculatedTable(): JSX.Element {
   };
   console.log(numberOfYears, monthlyContribution, initAmount, interestRate);
   
-  const finalTotal = tabledata[tabledata.length - 1].total;
-  const finyearlyGains = tabledata[tabledata.length - 1].yearlyInterest;
-  const finalYear = tabledata[tabledata.length - 1].year + new Date().getFullYear();
+  const displayedTotal = tabledata[selectedYear - 1].total;
+  const displayedGains = tabledata[selectedYear - 1].yearlyInterest;
+  const displayedYear = tabledata[selectedYear - 1].year + new Date().getFullYear();
 
 
 
@@ -73,6 +81,7 @@ export default function CalculatedTable(): JSX.Element {
     <div className="flex flex-row">
       <div className="container py-4 mr-4">
       <EditResetButtons onEdit={handleEdit} onReset={reset} />
+      <CardDropDownSelector yearlyTotals={tabledata} onYearChange={handleYearChange}/>
 
       <DataTable columns={columns} data={tabledata} />
 
@@ -83,25 +92,25 @@ export default function CalculatedTable(): JSX.Element {
       <Card className="h-40">
           <CardHeader>
             <CardTitle className="text-sm font-medium">Total Assets</CardTitle>
-            <CardDescription className="text-sm font-small">Asset Value {finalYear}</CardDescription>
+            <CardDescription className="text-sm font-small">{displayedYear} Value</CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="font-semibold">
             <p>{new Intl.NumberFormat("en-US", {
                 style: "currency",
                 currency: "USD",
-            }).format(finalTotal)}</p>
+            }).format(displayedTotal)}</p>
           </CardContent>
        </Card>
        <Card className="h-40">
           <CardHeader>
-            <CardTitle className="text-sm font-medium">Yearly Gains</CardTitle>
-            <CardDescription className="text-sm font-small">{finalYear} Returns</CardDescription>
+            <CardTitle className="text-sm font-medium justify-center text-nowrap">Yearly Gains</CardTitle>
+            <CardDescription className="text-sm font-small text-nowrap">{displayedYear} Return</CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="font-semibold">
             <p>{new Intl.NumberFormat("en-US", {
                 style: "currency",
                 currency: "USD",
-            }).format(finyearlyGains)}</p>
+            }).format(displayedGains)}</p>
           </CardContent>
        </Card>
        </div>
