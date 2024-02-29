@@ -80,8 +80,10 @@ export default function CalculatedTable(): JSX.Element {
   return (
     <div className="flex flex-row">
       <div className="container py-4 mr-4">
-      <EditResetButtons onEdit={handleEdit} onReset={reset} />
-      <CardDropDownSelector yearlyTotals={tabledata} onYearChange={handleYearChange}/>
+       <div className='flex flex-row justify-between'>
+        <EditResetButtons onEdit={handleEdit} onReset={reset} />
+        <CardDropDownSelector yearlyTotals={tabledata} onYearChange={handleYearChange}/>
+      </div> 
 
       <DataTable columns={columns} data={tabledata} />
 
