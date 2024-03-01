@@ -33,8 +33,6 @@ const NumericInput: React.FC<NumericInputProps> = ({ title, symbol, value, class
     }
   };
 
- 
-
   return (
     <div className={className}>
       

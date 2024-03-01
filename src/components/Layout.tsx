@@ -15,11 +15,11 @@ const sidebarNavItems = [
     },
     {
       title: "Asset Allocation",
-      href: "/examples/forms/display",
+      href: "/assets",
     },
     {
         title: "Time Travel",
-        href: "/examples/forms/display",
+        href: "/date",
     },
   ]
 
