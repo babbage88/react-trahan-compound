@@ -2,6 +2,7 @@ import { ReactNode } from 'react';
 import { ModeToggle } from './ui/mode-toggle';
 import { SidebarNav } from './sidebar-nav'; 
 import { Separator } from './ui/separator'; 
+import { BetaNotice } from './alert-beta';
 
 
 interface LayoutProps {
@@ -29,10 +30,14 @@ export default function Layout(props: LayoutProps): JSX.Element {
         <> 
         <div className="hidden space-y-6 p-10 pb-16 md:block">
         <div className="space-y-0.5">
+          
           <h2 className="text-2xl font-bold tracking-tight">Compound Interest Calculator  <ModeToggle /> </h2>
+          <div className='flex flex-row space-x-96'>
           <p className="text-muted-foreground">
-          Trahan Compund
+          Trahan Compund 
           </p>
+          <BetaNotice/>
+          </div>
         </div>
         <Separator className="my-6" />
         <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
@@ -42,6 +47,8 @@ export default function Layout(props: LayoutProps): JSX.Element {
           <div className="flex-1 lg:max-w-4xl">{children}</div>
         </div>
       </div>
+      <div className="flex flex-col-reverse fixed bottom-0 left-0 w-screen h-12">
+      <footer className="flex text-muted-foreground align-bottom justify-end">https://github.com/babbage88/react-trahan-compound</footer></div>
         </>
         
     );
