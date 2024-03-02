@@ -47,7 +47,7 @@ export default function Layout(props: LayoutProps): JSX.Element {
           <div className="flex-1 lg:max-w-4xl">{children}</div>
         </div>
       </div>
-
+  
         </>
         
     );
