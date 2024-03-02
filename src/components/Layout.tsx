@@ -2,7 +2,6 @@ import { ReactNode } from 'react';
 import { ModeToggle } from './ui/mode-toggle';
 import { SidebarNav } from './sidebar-nav'; 
 import { Separator } from './ui/separator'; 
-import { BetaNotice } from './alert-beta';
 import { Toaster } from './ui/toaster';
 
 interface LayoutProps {
