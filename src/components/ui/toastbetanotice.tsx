@@ -11,7 +11,7 @@ export function BetaToast() {
       title: "Just FYI",
       description: "This is a side project, I'm a Devops Engineer by day this  frontend. I'm hoping to expand capability as I learn. I wasn't a fan of the other compound interest calculatlrss on Google, so started building this.",
       action: (
-        <ToastAction altText="Goto schedule to undo">Undo</ToastAction>
+        <ToastAction altText="Welcome to the Trahan Compound">Dismiss</ToastAction>
       ),
     })
   }, [toast]) // Ensure toast function is available before triggering
