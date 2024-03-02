@@ -47,7 +47,13 @@ export default function Layout(props: LayoutProps): JSX.Element {
           <div className="flex-1 lg:max-w-4xl">{children}</div>
         </div>
       </div>
-  
+      <div className="flex flex-col fixed bottom-0 left-0 w-screen h-12">
+      <footer className="flex text-muted-foreground align-bottom justify-end">
+        <a href='https://github.com/babbage88/react-trahan-compound'>
+          GitHub
+        </a>
+      </footer>
+      </div>
         </>
         
     );
