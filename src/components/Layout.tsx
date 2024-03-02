@@ -48,7 +48,7 @@ export default function Layout(props: LayoutProps): JSX.Element {
         </div>
       </div>
       <div className="flex flex-col-reverse fixed bottom-0 left-0 w-screen h-12">
-      <footer className="flex text-muted-foreground align-bottom justify-end">https://github.com/babbage88/react-trahan-compound</footer></div>
+      // <footer className="flex text-muted-foreground align-bottom justify-end">https://github.com/babbage88/react-trahan-compound</footer></div>
         </>
         
     );
