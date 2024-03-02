@@ -25,7 +25,7 @@ const SideNav = () => {
 
   return (
     // NOTE: In prod, you'd likely set height to h-screen and fix to the viewport
-    <nav className="h-[500px] w-fit bg-slate-950 p-4 flex flex-col items-center gap-2">
+    <nav className="h-[calc(100dvh)] w-fit bg-slate-950 p-4 flex flex-col items-center gap-2">
       {/* Temp logo from https://logoipsum.com/ */}
       <svg
         width="40"

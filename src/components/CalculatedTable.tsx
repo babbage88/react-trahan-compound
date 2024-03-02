@@ -93,8 +93,8 @@ export default function CalculatedTable(): JSX.Element {
       <div className="flex flex-row space-x-2">
       <Card className="h-40">
           <CardHeader>
-            <CardTitle className="text-sm font-medium">Total Assets</CardTitle>
-            <CardDescription className="text-sm font-small">{displayedYear} Value</CardDescription>
+            <CardTitle className="text-sm font-medium">Total</CardTitle>
+            <CardDescription className="text-sm font-small text-nowrap">{displayedYear} Assets</CardDescription>
           </CardHeader>
           <CardContent className="font-semibold">
             <p>{new Intl.NumberFormat("en-US", {
