@@ -15,7 +15,9 @@ interface OptionalNumericInputProps {
 
 const OptionalNumericInput: React.FC<OptionalNumericInputProps> = ({ title, symbol, value, className, placeholder, setValue  }) => {
  
-    const [isChecked, setIsChecked] = useState(false);    
+    const [isChecked, setIsChecked] = useState(false);
+
+    const switchId: string = title + '-switch'; 
 
     const handleToggle = () => {
       setIsChecked(!isChecked);
@@ -24,11 +26,11 @@ const OptionalNumericInput: React.FC<OptionalNumericInputProps> = ({ title, symb
 return(
 
 <div className={className}>
-        <Label htmlFor="monthly-con" className='flex justify-start pl-2 pt-2'>
+        <Label htmlFor={switchId} className='flex justify-start pl-2 pt-2'>
           Add {title}
         </Label>
       <div className='flex justify-start pl-2'>
-        <Switch id='monthly-con' onClick={handleToggle}/>
+        <Switch id={switchId} onClick={handleToggle}/>
       </div>
       {isChecked && (
         <NumericInput
