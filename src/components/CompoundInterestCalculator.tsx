@@ -1,14 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Label } from "@/components/ui/label"
+import OptionalNumericInput from './OptionalNumericInput';
 import NumericInput from './NumericInput';
 import { Slider } from '@/components/ui/slider'
 import CalculateButton from './CalculateButton';
 import { YearlyTotals } from "@/components/ui/columns";
-import { Switch } from "@/components/ui/switch"
-
-  
-  
 
 const CompoundInterestCalculator = () => {
   const navigate = useNavigate();
@@ -19,14 +16,7 @@ const CompoundInterestCalculator = () => {
   const [interestRate, setInterestRate] = useState<number>(0);
   const [numberOfYears, setNumberOfYears] = useState<number>(0);
   const [tabledata, setTableData] = useState<YearlyTotals[]>([]);
-  const [isChecked, setIsChecked] = useState(false);
-
-  const handleToggle = () => {
-    setIsChecked(!isChecked);
-  };
-
-
-
+ 
   useEffect(() => {
     if (location.state) {
       const { initAmount, monthlyContribution, interestRate, numberOfYears } = location.state;
@@ -89,20 +79,15 @@ const CompoundInterestCalculator = () => {
         placeholder='Interest Rate'
         setValue={setInterestRate}
       />
-      <div className='flex flex-col space-y-2 pl-2 container'>
-      <Label htmlFor="monthly-con" className='flex justify-start pl-2 pt-2'>Add Monthly Contribution</Label>
-      <div className='flex justify-start pl-2'><Switch id='monthly-con' onClick={handleToggle}/></div>
-      {isChecked && (
-        <NumericInput
-          title={'Monthly Contribution'}
-          symbol={'$'}
-          value={monthlyContribution}
-          className='flex flex-col pl-1'
-          placeholder='Monthly Contribution'
-          setValue={setMonthlyContribution}
-        />
-      )}
-      </div>
+      <OptionalNumericInput 
+      title={'Monthly Contribution'} 
+      symbol={'$'} 
+      value={monthlyContribution}
+      className='flex flex-col space-y-2 pl-2 container'
+      placeholder='Monthly Contribution'
+      setValue={setMonthlyContribution} 
+      />
+
       <Label className='flex pl-3 pt-4'>Years: {numberOfYears}</Label>
       <Slider max={100} step={1} defaultValue={[numberOfYears]} className='flex pl-4 pt-2' onValueChange={(e) => {
           setNumberOfYears(Number(e));
