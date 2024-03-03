@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Label } from "@/components/ui/label"
+import OptionalNumericInput from './OptionalNumericInput';
 import NumericInput from './NumericInput';
 import { Slider } from '@/components/ui/slider'
 import CalculateButton from './CalculateButton';
@@ -24,8 +25,6 @@ const CompoundInterestCalculator = () => {
   const handleToggle = () => {
     setIsChecked(!isChecked);
   };
-
-
 
   useEffect(() => {
     if (location.state) {
@@ -89,9 +88,22 @@ const CompoundInterestCalculator = () => {
         placeholder='Interest Rate'
         setValue={setInterestRate}
       />
+      <OptionalNumericInput 
+      title={'Monthly Contribution'} 
+      symbol={'$'} 
+      value={monthlyContribution}
+      className='flex flex-col space-y-2 pl-2 container'
+      placeholder='Monthly Contribution'
+      setValue={setMonthlyContribution} 
+      />
+
       <div className='flex flex-col space-y-2 pl-2 container'>
-      <Label htmlFor="monthly-con" className='flex justify-start pl-2 pt-2'>Add Monthly Contribution</Label>
-      <div className='flex justify-start pl-2'><Switch id='monthly-con' onClick={handleToggle}/></div>
+        <Label htmlFor="monthly-con" className='flex justify-start pl-2 pt-2'>
+          Add Monthly Contribution
+        </Label>
+      <div className='flex justify-start pl-2'>
+        <Switch id='monthly-con' onClick={handleToggle}/>
+      </div>
       {isChecked && (
         <NumericInput
           title={'Monthly Contribution'}
