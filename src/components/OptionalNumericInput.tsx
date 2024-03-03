@@ -17,7 +17,7 @@ const OptionalNumericInput: React.FC<OptionalNumericInputProps> = ({ title, symb
  
     const [isChecked, setIsChecked] = useState(false);
 
-    const switchId: string = title + '-switch'; 
+    const switchId: string = title.replace(/\s/g, "").toLocaleLowerCase() + '-switch'; 
 
     const handleToggle = () => {
       setIsChecked(!isChecked);
