@@ -34,7 +34,7 @@ export default function Layout(props: LayoutProps): JSX.Element {
           <h2 className="text-2xl font-bold tracking-tight">Compound Interest Calculator</h2>
           <div className='flex flex-row justify-between'>
             <p className="text-muted-foreground">Trahan Compund</p>
-            <div className='flex'>
+            <div className='flex justify-end'>
             <ModeToggle />
             </div>
           </div>
@@ -48,9 +48,9 @@ export default function Layout(props: LayoutProps): JSX.Element {
           <div className="flex-1 lg:max-w-4xl">{children}</div>
         </div>
       </div>
-      <div className="flex flex-row lg:flex-col fixed bottom-0 left-0 w-screen h-12 pr-4 justify-between">
+      <div className="flex flex-row-reverse lg:flex-col fixed bottom-0 left-0 w-screen h-12 pr-4 justify-between">
         <ModeToggle/>
-      <footer className="mt-auto p-4 lg:text-right sm:text-center lg:fixed lg:bottom-0 lg:left-0 lg:w-screen">
+      <footer className="mt-auto fixed inset-x-0 bottom-0 lg:p-4 pl-4 lg:text-right text-left  lg:fixed lg:bottom-0 lg:left-0 lg:w-screen">
                 <a href='https://github.com/babbage88/react-trahan-compound'>GitHub</a>
             </footer>
       </div>
