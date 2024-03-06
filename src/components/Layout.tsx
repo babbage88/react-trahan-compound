@@ -48,8 +48,8 @@ export default function Layout(props: LayoutProps): JSX.Element {
           <div className="flex-1 lg:max-w-4xl">{children}</div>
         </div>
       </div>
-      <div className="flex flex-col fixed bottom-0 left-0 w-screen h-12 pr-4 justify-between">
-      <ModeToggle/>
+      <div className="flex flex-row lg:flex-col fixed bottom-0 left-0 w-screen h-12 pr-4 justify-between">
+        <ModeToggle/>
       <footer className="mt-auto p-4 lg:text-right sm:text-center lg:fixed lg:bottom-0 lg:left-0 lg:w-screen">
                 <a href='https://github.com/babbage88/react-trahan-compound'>GitHub</a>
             </footer>
