@@ -4,13 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { DataTable } from "@/components/ui/data-table" 
 import { CardDropDownSelector} from "@/components/cardDropdownSelector";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "./ui/card"
+import { CalculatedCards } from './calculatedCards';
 
 
 function EditResetButtons({ onEdit, onReset }: { onEdit: () => void; onReset: () => void; }) {
@@ -85,37 +79,19 @@ export default function CalculatedTable(): JSX.Element {
         <CardDropDownSelector yearlyTotals={tabledata} onYearChange={handleYearChange}/>
       </div> 
 
+      <div className="flex flex-row space-x-2 md:hidden">
+        <CalculatedCards cardTitle='Total' cardDescription={displayedYear.toString() + " Assets"} cardContent={displayedTotal}/>
+        <CalculatedCards cardTitle='Yearly Gains' cardDescription={displayedYear.toString() + " Gain"} cardContent={displayedGains}/>
+      </div>
       <DataTable columns={columns} data={tabledata} />
 
       <EditResetButtons onEdit={handleEdit} onReset={reset} />
       </div>
 
-      <div className="flex flex-row space-x-2">
-      <Card className="h-40">
-          <CardHeader>
-            <CardTitle className="text-sm font-medium">Total</CardTitle>
-            <CardDescription className="text-sm font-small text-nowrap">{displayedYear} Assets</CardDescription>
-          </CardHeader>
-          <CardContent className="font-semibold">
-            <p>{new Intl.NumberFormat("en-US", {
-                style: "currency",
-                currency: "USD",
-            }).format(displayedTotal)}</p>
-          </CardContent>
-       </Card>
-       <Card className="h-40">
-          <CardHeader>
-            <CardTitle className="text-sm font-medium justify-center text-nowrap">Yearly Gains</CardTitle>
-            <CardDescription className="text-sm font-small text-nowrap">{displayedYear} Return</CardDescription>
-          </CardHeader>
-          <CardContent className="font-semibold">
-            <p>{new Intl.NumberFormat("en-US", {
-                style: "currency",
-                currency: "USD",
-            }).format(displayedGains)}</p>
-          </CardContent>
-       </Card>
-       </div>
+      <div className="md:flex hidden flex-row space-x-2">
+        <CalculatedCards cardTitle='Total' cardDescription={displayedYear.toString() + " Assets"} cardContent={displayedTotal}/>
+        <CalculatedCards cardTitle='Yearly Gains' cardDescription={displayedYear.toString() + " Gain"} cardContent={displayedGains}/>
+      </div>
     </div>
   );
 }
