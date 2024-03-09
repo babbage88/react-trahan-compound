@@ -15,7 +15,7 @@ type YearlyTotals struct {
     GainFromInt    float64 `json:"gainfromint"`
 }
 
-func calculateCompoundInterest(initAmount float64, monthlyContribution float64, interestRate float64, numberOfYears int) []YearlyTotals {
+func calculateCompoundInterest(initAmount float64, monthlyContribution float64, interestRate float32, numberOfYears int) []YearlyTotals {
     var yearlyTotals []YearlyTotals
     var total float64 = initAmount
     annualContribution := monthlyContribution * 12
@@ -41,10 +41,15 @@ func calculateCompoundInterest(initAmount float64, monthlyContribution float64, 
 }
 
 func compoundInterestHandler(w http.ResponseWriter, r *http.Request) {
-    // Example: initAmount, _ := strconv.ParseFloat(r.URL.Query().Get("initAmount"), 64)
+    // parse variables form post
+	r.ParseForm()
+	var initAmount float64 := r.Form.Get("initAmount")
+	var monthlyContrib float64 := r.Form.Get("monthlycontribution")
+	var intRate float32 := r.Form.Get("interestRate")
+	var numberOfYears int := r.Form.Get("numberOfYears")
 
     // Call the compound interest calculation function
-    yearlyTotals := calculateCompoundInterest( /* pass your parameters here */ )
+    yearlyTotals := calculateCompoundInterest(initAmount, monthlyContrib, intRate, numberOfYears)
 
     // Serialize response to JSON
     jsonResponse, err := json.Marshal(yearlyTotals)
