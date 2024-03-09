@@ -16,6 +16,12 @@ const CompoundInterestCalculator = () => {
   const [interestRate, setInterestRate] = useState<number>(0);
   const [numberOfYears, setNumberOfYears] = useState<number>(0);
   const [tabledata, setTableData] = useState<YearlyTotals[]>([]);
+  // const [calcMonthly, setCalcMonthly] = useState<boolean>(true);
+  const calcMonthly: boolean = true; 
+  const monthlyRate: number = (interestRate /100) / 12;
+  // const totalNumberOfMonths: number = numberOfYears * 12;
+  const months: number = 12; 
+
  
   useEffect(() => {
     if (location.state) {
@@ -33,23 +39,50 @@ const CompoundInterestCalculator = () => {
     const yearlyTotals: YearlyTotals[] = [];
     let yearlyInterest: number = 0;
     let yearlyIncome: number = 0;
+    
+    if(!calcMonthly){
+      for (let i = 0; i < numberOfYears; i++) {
+        yearlyInterest = (interestRate / 100) * total;
+        yearlyIncome = (interestRate / 100) * .4 * total;
+        total = total + annualContribution;
+        total *= 1 + interestRate / 100;
 
-    for (let i = 0; i < numberOfYears; i++) {
-      yearlyInterest = (interestRate / 100) * total;
-      yearlyIncome = (interestRate / 100) * .4 * total;
-      total = total + annualContribution;
-      total *= 1 + interestRate / 100;
-
-      tabledata.push({
-        year: i + 1,
-        total: total,
-        contributions: annualContribution * (i + 1),
-        yearlyInterest: yearlyInterest,
-        yearlyIncome: yearlyIncome,
-        gainfromint: total - (initAmount + (annualContribution * i))
-      });
+        tabledata.push({
+          year: i + 1,
+          total: total,
+          contributions: annualContribution * (i + 1),
+          yearlyInterest: yearlyInterest,
+          yearlyIncome: yearlyIncome,
+          gainfromint: total - (initAmount + (annualContribution * i))
+        });
     }
-    setTableData(yearlyTotals);
+      setTableData(yearlyTotals);
+    }
+
+    else{
+      for (let i = 0; i < numberOfYears; i++) {
+        const yearlyStart: number = total
+
+        for (let i = 0; i < months; i++){
+          const monthlyIntGain: number = total * monthlyRate;
+          total = total + monthlyContribution;
+          total = total + monthlyIntGain;
+        }
+        yearlyInterest = (total - annualContribution) - yearlyStart; 
+        yearlyIncome = (interestRate / 100) * .4 * total;
+
+        tabledata.push({
+          year: i + 1,
+          total: total,
+          contributions: annualContribution * (i + 1),
+          yearlyInterest: yearlyInterest,
+          yearlyIncome: yearlyIncome,
+          gainfromint: total - (initAmount + (annualContribution * i))
+        });
+    }
+      setTableData(yearlyTotals);
+    }
+
     navigate('/calculated', {
         state: {
           numberOfYears,
