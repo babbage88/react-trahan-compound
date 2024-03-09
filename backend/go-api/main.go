@@ -18,14 +18,16 @@ type YearlyTotals struct {
 func calculateCompoundInterest(initAmount float64, monthlyContribution float64, interestRate float32, numberOfYears int) []YearlyTotals {
     var yearlyTotals []YearlyTotals
     var total float64 = initAmount
-    annualContribution := monthlyContribution * 12
+    var annualContribution float64 = monthlyContribution * 12
 
     for i := 0; i < numberOfYears; i++ {
-        yearlyInterest := (interestRate / 100) * total
-        yearlyIncome := (interestRate / 100) * .4 * total
+		var yearlyInterest float64
+		var yearlyIncome float64
+        yearlyInterest := (float64(interestRate) / 100) * total
+        yearlyIncome = (float64(interestRate) / 100) * .4 * total
 
         total += annualContribution
-        total *= 1 + interestRate / 100
+        total *= 1 + float64(interestRate) / 100
 
         yearlyTotals = append(yearlyTotals, YearlyTotals{
             Year:           i + 1,
@@ -43,10 +45,16 @@ func calculateCompoundInterest(initAmount float64, monthlyContribution float64, 
 func compoundInterestHandler(w http.ResponseWriter, r *http.Request) {
     // parse variables form post
 	r.ParseForm()
-	var initAmount float64 := r.Form.Get("initAmount")
-	var monthlyContrib float64 := r.Form.Get("monthlycontribution")
-	var intRate float32 := r.Form.Get("interestRate")
-	var numberOfYears int := r.Form.Get("numberOfYears")
+
+	var initAmountStr String := r.Form.Get("init_amount")
+	initAmount, err := strconv.ParseFloat(initAmountStr, 64)
+	if err != nil {
+    	// Handle the error, e.g., return an error response to the client
+	}
+
+	var monthlyContrib float64 = r.Form.Get("monthly")
+	var intRate float32 = r.Form.Get("int_rate")
+	var numberOfYears int = r.Form.Get("num_years")
 
     // Call the compound interest calculation function
     yearlyTotals := calculateCompoundInterest(initAmount, monthlyContrib, intRate, numberOfYears)
