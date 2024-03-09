@@ -58,14 +58,14 @@ const CompoundInterestCalculator = () => {
     }
       setTableData(yearlyTotals);
     }
-    
+
     else{
       for (let i = 0; i < numberOfYears; i++) {
         const yearlyStart: number = total
 
         for (let i = 0; i < months; i++){
-          total = total + monthlyContribution;
           const monthlyIntGain: number = total * monthlyRate;
+          total = total + monthlyContribution;
           total = total + monthlyIntGain;
         }
         yearlyInterest = (total - annualContribution) - yearlyStart; 
