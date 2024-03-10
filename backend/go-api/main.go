@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"strconv"
@@ -51,6 +52,8 @@ func compoundInterestHandler(w http.ResponseWriter, r *http.Request) {
 	initAmount, err := strconv.ParseFloat(initAmountStr, 64)
 	if err != nil {
 		// Handle the error, e.g., return an error response to the client
+		fmt.Print("Error:", err)
+
 	}
 
 	var monthlyContribStr string = r.Form.Get("monthly")
@@ -58,18 +61,21 @@ func compoundInterestHandler(w http.ResponseWriter, r *http.Request) {
 	monthlyContrib, err := strconv.ParseFloat(monthlyContribStr, 64)
 	if err != nil {
 		//handle error
+		fmt.Print("Error:", err)
 	}
 
 	var intRateStr string = r.Form.Get("int_rate")
 	intRate, err := strconv.ParseFloat(intRateStr, 32)
 	if err != nil {
 		//handle error
+		fmt.Print("Error:", err)
 	}
 
 	var numberOfYearsStr string = r.Form.Get("num_years")
 	numberOfYears, err := strconv.ParseInt(numberOfYearsStr, 10, 0)
 	if err != nil {
 		//handle error
+		fmt.Print("Error:", err)
 	}
 
 	// Call the compound interest calculation function
