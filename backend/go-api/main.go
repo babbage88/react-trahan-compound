@@ -44,6 +44,7 @@ func calculateCompoundInterest(initAmount float64, monthlyContribution float64, 
 	return yearlyTotals
 }
 
+// swagger:meta
 func compoundInterestHandler(w http.ResponseWriter, r *http.Request) {
 	// parse variables form post
 	r.ParseForm()

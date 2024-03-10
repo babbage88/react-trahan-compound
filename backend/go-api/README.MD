@@ -1,4 +1,6 @@
 # Sample Go API for Compound Interest
+This is not complete until merged to master.
+
 This is a basic example of a Golang based WebAPI which can be used for the backend of the Trahan Compound frontend. I have installed swagger which can be used to document/troubleshoot the WebAPI during development. 
 
 ## Setup for Swagger
