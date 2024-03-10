@@ -6,6 +6,8 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+
+	httpSwagger "github.com/swaggo/http-swagger/v2"
 )
 
 type YearlyTotals struct {
@@ -44,7 +46,19 @@ func calculateCompoundInterest(initAmount float64, monthlyContribution float64, 
 	return yearlyTotals
 }
 
-// swagger:meta
+// authLogin godoc
+// @Summary Compund Interest calculation
+// @Description Takes params from frontend and returns YearlyTotals for Compound Interest
+// @Tags Calc
+// @ID auth-login
+// @Accept  json
+// @Produce  json
+// @Param initAmount float64 body true ""
+// @Param monthlyContribution float64  body true ""
+// @Param interestRate float32 body true ""
+// @Param numberOfYearsbint body true ""
+// @Success 200 {object} main.r
+// @Router /compound-interest [post]
 func compoundInterestHandler(w http.ResponseWriter, r *http.Request) {
 	// parse variables form post
 	r.ParseForm()
@@ -96,6 +110,7 @@ func compoundInterestHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	http.HandleFunc("/swagger/", httpSwagger.WrapHandler)
 	http.HandleFunc("/compound-interest", compoundInterestHandler)
 
 	log.Println("Starting server on :8080...")
