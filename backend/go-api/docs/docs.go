@@ -9,31 +9,110 @@ const docTemplate = `{
     "info": {
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
-        "termsOfService": "http://swagger.io/terms/",
-        "contact": {
-            "name": "API Support",
-            "url": "http://www.swagger.io/support",
-            "email": "support@swagger.io"
-        },
-        "license": {
-            "name": "Apache 2.0",
-            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
-        },
+        "contact": {},
         "version": "{{.Version}}"
     },
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
-    "paths": {}
+    "paths": {
+        "/compound-interest": {
+            "post": {
+                "description": "Takes params from frontend and returns YearlyTotals for Compound Interest",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Calc"
+                ],
+                "summary": "Compund Interest calculation",
+                "operationId": "auth-login",
+                "parameters": [
+                    {
+                        "description": "Initial Asset Value",
+                        "name": "initAmount",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "description": "Monthly contribution",
+                        "name": "monthlyContribution",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "description": "Interest Rate used in calculation",
+                        "name": "interestRate",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "description": "Number of years to run calculation",
+                        "name": "numberOfYearsbint",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/main.YearlyTotals"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "main.YearlyTotals": {
+            "type": "object",
+            "properties": {
+                "contributions": {
+                    "type": "number"
+                },
+                "gainfromint": {
+                    "type": "number"
+                },
+                "total": {
+                    "type": "number"
+                },
+                "year": {
+                    "type": "integer"
+                },
+                "yearlyIncome": {
+                    "type": "number"
+                },
+                "yearlyInterest": {
+                    "type": "number"
+                }
+            }
+        }
+    }
 }`
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "1.0",
-	Host:             "compound.trahan.dev",
-	BasePath:         "/v2",
+	Version:          "",
+	Host:             "",
+	BasePath:         "",
 	Schemes:          []string{},
-	Title:            "Swagger Example API",
-	Description:      "This is a sample for Trahan Compound.",
+	Title:            "",
+	Description:      "",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

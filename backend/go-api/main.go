@@ -53,11 +53,11 @@ func calculateCompoundInterest(initAmount float64, monthlyContribution float64, 
 // @ID auth-login
 // @Accept  json
 // @Produce  json
-// @Param initAmount float64 body true ""
-// @Param monthlyContribution float64  body true ""
-// @Param interestRate float32 body true ""
-// @Param numberOfYearsbint body true ""
-// @Success 200 {object} main.r
+// @Param initAmount body float64 true "Initial Asset Value"
+// @Param monthlyContribution body float64  true "Monthly contribution"
+// @Param interestRate body float32 true "Interest Rate used in calculation"
+// @Param numberOfYearsbint body int true "Number of years to run calculation"
+// @Success 200 {object} YearlyTotals
 // @Router /compound-interest [post]
 func compoundInterestHandler(w http.ResponseWriter, r *http.Request) {
 	// parse variables form post
