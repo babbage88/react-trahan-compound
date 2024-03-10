@@ -21,6 +21,13 @@ type YearlyTotals struct {
 	GainFromInt    float64 `json:"gainfromint"`
 }
 
+type InitialNumericInput struct {
+	initAmount          float64
+	monthlyContribution float64
+	interestRate        float32
+	numberOfYears       int
+}
+
 func calculateCompoundInterest(initAmount float64, monthlyContribution float64, interestRate float32, numberOfYears int) []YearlyTotals {
 	var yearlyTotals []YearlyTotals
 	var total float64 = initAmount
