@@ -1,4 +1,6 @@
 definitions:
+  main.InitialNumericInput:
+    type: object
   main.YearlyTotals:
     properties:
       contributions:
@@ -25,30 +27,12 @@ paths:
         Interest
       operationId: auth-login
       parameters:
-      - description: Initial Asset Value
+      - description: Values from user
         in: body
-        name: initAmount
+        name: InitialNumericInput
         required: true
         schema:
-          type: number
-      - description: Monthly contribution
-        in: body
-        name: monthlyContribution
-        required: true
-        schema:
-          type: number
-      - description: Interest Rate used in calculation
-        in: body
-        name: interestRate
-        required: true
-        schema:
-          type: number
-      - description: Number of years to run calculation
-        in: body
-        name: numberOfYearsbint
-        required: true
-        schema:
-          type: integer
+          $ref: '#/definitions/main.InitialNumericInput'
       produces:
       - application/json
       responses:

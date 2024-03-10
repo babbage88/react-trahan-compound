@@ -2,10 +2,8 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
-	"strconv"
 
 	_ "github.com/babbage88/go-compound-api/swagger"
 
@@ -62,48 +60,23 @@ func calculateCompoundInterest(initAmount float64, monthlyContribution float64, 
 // @ID auth-login
 // @Accept  json
 // @Produce  json
-// @Param initAmount body float64 true "Initial Asset Value"
-// @Param monthlyContribution body float64  true "Monthly contribution"
-// @Param interestRate body float32 true "Interest Rate used in calculation"
-// @Param numberOfYearsbint body int true "Number of years to run calculation"
+// @Param InitialNumericInput body InitialNumericInput true "Values from user"
 // @Success 200 {object} YearlyTotals
 // @Router /compound-interest [post]
 func compoundInterestHandler(w http.ResponseWriter, r *http.Request) {
 	// parse variables form post
 	r.ParseForm()
 
-	var initAmountStr string = r.Form.Get("init_amount")
-	initAmount, err := strconv.ParseFloat(initAmountStr, 64)
+	var request_input InitialNumericInput
+
+	err := json.NewDecoder(r.Body).Decode(&request_input)
 	if err != nil {
-		// Handle the error, e.g., return an error response to the client
-		fmt.Print("Error:", err)
-
-	}
-
-	var monthlyContribStr string = r.Form.Get("monthly")
-
-	monthlyContrib, err := strconv.ParseFloat(monthlyContribStr, 64)
-	if err != nil {
-		//handle error
-		fmt.Print("Error:", err)
-	}
-
-	var intRateStr string = r.Form.Get("int_rate")
-	intRate, err := strconv.ParseFloat(intRateStr, 32)
-	if err != nil {
-		//handle error
-		fmt.Print("Error:", err)
-	}
-
-	var numberOfYearsStr string = r.Form.Get("num_years")
-	numberOfYears, err := strconv.ParseInt(numberOfYearsStr, 10, 0)
-	if err != nil {
-		//handle error
-		fmt.Print("Error:", err)
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
 	}
 
 	// Call the compound interest calculation function
-	yearlyTotals := calculateCompoundInterest(initAmount, monthlyContrib, float32(intRate), int(numberOfYears))
+	yearlyTotals := calculateCompoundInterest(request_input.initAmount, request_input.monthlyContribution, float32(request_input.interestRate), int(request_input.numberOfYears))
 
 	// Serialize response to JSON
 	jsonResponse, err := json.Marshal(yearlyTotals)

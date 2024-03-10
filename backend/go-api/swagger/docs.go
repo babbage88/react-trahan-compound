@@ -31,39 +31,12 @@ const docTemplate = `{
                 "operationId": "auth-login",
                 "parameters": [
                     {
-                        "description": "Initial Asset Value",
-                        "name": "initAmount",
+                        "description": "Values from user",
+                        "name": "InitialNumericInput",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "type": "number"
-                        }
-                    },
-                    {
-                        "description": "Monthly contribution",
-                        "name": "monthlyContribution",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "number"
-                        }
-                    },
-                    {
-                        "description": "Interest Rate used in calculation",
-                        "name": "interestRate",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "number"
-                        }
-                    },
-                    {
-                        "description": "Number of years to run calculation",
-                        "name": "numberOfYearsbint",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
+                            "$ref": "#/definitions/main.InitialNumericInput"
                         }
                     }
                 ],
@@ -79,6 +52,9 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "main.InitialNumericInput": {
+            "type": "object"
+        },
         "main.YearlyTotals": {
             "type": "object",
             "properties": {
