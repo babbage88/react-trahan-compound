@@ -7,6 +7,8 @@ import (
 	"net/http"
 	"strconv"
 
+	_ "github.com/babbage88/go-compound-api/swagger"
+
 	httpSwagger "github.com/swaggo/http-swagger/v2"
 )
 
