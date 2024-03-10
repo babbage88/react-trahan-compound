@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 
@@ -53,7 +54,7 @@ func calculateCompoundInterest(initAmount float64, monthlyContribution float64, 
 	return yearlyTotals
 }
 
-// authLogin godoc
+// calculateCompoundInterest godoc
 // @Summary Compund Interest calculation
 // @Description Takes params from frontend and returns YearlyTotals for Compound Interest
 // @Tags Calc
@@ -78,12 +79,15 @@ func compoundInterestHandler(w http.ResponseWriter, r *http.Request) {
 	// Call the compound interest calculation function
 	yearlyTotals := calculateCompoundInterest(request_input.initAmount, request_input.monthlyContribution, float32(request_input.interestRate), int(request_input.numberOfYears))
 
+	fmt.Println(yearlyTotals)
 	// Serialize response to JSON
 	jsonResponse, err := json.Marshal(yearlyTotals)
 	if err != nil {
 		http.Error(w, "Failed to marshal JSON response", http.StatusInternalServerError)
 		return
 	}
+
+	fmt.Println(jsonResponse)
 
 	// Set response headers and write JSON response
 	w.Header().Set("Content-Type", "application/json")
