@@ -1,0 +1,55 @@
+definitions:
+  main.InitialNumericInput:
+    properties:
+      initAmount:
+        type: number
+      interestRate:
+        type: number
+      monthlyContribution:
+        type: number
+      numberOfYears:
+        type: integer
+    type: object
+  main.YearlyTotals:
+    properties:
+      contributions:
+        type: number
+      gainfromint:
+        type: number
+      total:
+        type: number
+      year:
+        type: integer
+      yearlyIncome:
+        type: number
+      yearlyInterest:
+        type: number
+    type: object
+info:
+  contact: {}
+paths:
+  /compound-interest:
+    post:
+      consumes:
+      - application/json
+      description: Takes params from frontend and returns YearlyTotals for Compound
+        Interest
+      operationId: Calculator
+      parameters:
+      - description: Values from user
+        in: body
+        name: InitialNumericInput
+        required: true
+        schema:
+          $ref: '#/definitions/main.InitialNumericInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/main.YearlyTotals'
+      summary: Compund Interest calculation
+      tags:
+      - Calc
+swagger: "2.0"
