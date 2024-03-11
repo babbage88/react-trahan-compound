@@ -1,0 +1,62 @@
+definitions:
+  main.YearlyTotals:
+    properties:
+      contributions:
+        type: number
+      gainfromint:
+        type: number
+      total:
+        type: number
+      year:
+        type: integer
+      yearlyIncome:
+        type: number
+      yearlyInterest:
+        type: number
+    type: object
+info:
+  contact: {}
+paths:
+  /compound-interest:
+    post:
+      consumes:
+      - application/json
+      description: Takes params from frontend and returns YearlyTotals for Compound
+        Interest
+      operationId: auth-login
+      parameters:
+      - description: Initial Asset Value
+        in: body
+        name: initAmount
+        required: true
+        schema:
+          type: number
+      - description: Monthly contribution
+        in: body
+        name: monthlyContribution
+        required: true
+        schema:
+          type: number
+      - description: Interest Rate used in calculation
+        in: body
+        name: interestRate
+        required: true
+        schema:
+          type: number
+      - description: Number of years to run calculation
+        in: body
+        name: numberOfYearsbint
+        required: true
+        schema:
+          type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/main.YearlyTotals'
+      summary: Compund Interest calculation
+      tags:
+      - Calc
+swagger: "2.0"

@@ -1,0 +1,85 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/compound-interest": {
+            "post": {
+                "description": "Takes params from frontend and returns YearlyTotals for Compound Interest",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Calc"
+                ],
+                "summary": "Compund Interest calculation",
+                "operationId": "Calculator",
+                "parameters": [
+                    {
+                        "description": "Values from user",
+                        "name": "InitialNumericInput",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/main.InitialNumericInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/main.YearlyTotals"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "main.InitialNumericInput": {
+            "type": "object",
+            "properties": {
+                "initAmount": {
+                    "type": "number"
+                },
+                "interestRate": {
+                    "type": "number"
+                },
+                "monthlyContribution": {
+                    "type": "number"
+                },
+                "numberOfYears": {
+                    "type": "integer"
+                }
+            }
+        },
+        "main.YearlyTotals": {
+            "type": "object",
+            "properties": {
+                "contributions": {
+                    "type": "number"
+                },
+                "gainfromint": {
+                    "type": "number"
+                },
+                "total": {
+                    "type": "number"
+                },
+                "year": {
+                    "type": "integer"
+                },
+                "yearlyIncome": {
+                    "type": "number"
+                },
+                "yearlyInterest": {
+                    "type": "number"
+                }
+            }
+        }
+    }
+}
