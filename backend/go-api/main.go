@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 
@@ -30,15 +31,29 @@ func calculateCompoundInterest(initAmount float64, monthlyContribution float64, 
 	var yearlyTotals []YearlyTotals
 	var total float64 = initAmount
 	var annualContribution float64 = monthlyContribution * 12
+	var months int8 = 12
+	var monthlyIntRate float32 = (interestRate / 100) / float32(months)
 
 	for i := 0; i < numberOfYears; i++ {
-		var yearlyInterest float64
-		var yearlyIncome float64
-		yearlyInterest = (float64(interestRate) / 100) * total
-		yearlyIncome = (float64(interestRate) / 100) * .4 * total
+		fmt.Println("Year: ", i)
+		var yearlyStart float64 = total
+		fmt.Println("Total Start: ", total)
 
-		total += annualContribution
-		total *= 1 + float64(interestRate)/100
+		for i := 0; i < int(months); i++ {
+			fmt.Println("Month: ", i)
+			var monthlyGain float64 = total * float64(monthlyIntRate)
+			fmt.Println("MonthlyGain: ", monthlyGain)
+			total = total + monthlyContribution
+			fmt.Println("Total After Contribution: ", total)
+			total = total + monthlyGain
+			fmt.Println("Total After MonthlyGain: ", total)
+		}
+
+		var yearlyInterest float64 = (total - annualContribution) - yearlyStart
+		fmt.Print("End Year: ", i)
+		fmt.Println("YearlyInterest ", yearlyInterest)
+		var yearlyIncome float64 = (float64(interestRate) / 100) * .4 * total
+		fmt.Println("YearlyIncome ", yearlyIncome)
 
 		yearlyTotals = append(yearlyTotals, YearlyTotals{
 			Year:           i + 1,
