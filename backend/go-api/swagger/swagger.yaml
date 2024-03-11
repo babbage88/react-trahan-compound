@@ -1,5 +1,14 @@
 definitions:
   main.InitialNumericInput:
+    properties:
+      initAmount:
+        type: number
+      interestRate:
+        type: number
+      monthlyContribution:
+        type: number
+      numberOfYears:
+        type: integer
     type: object
   main.YearlyTotals:
     properties:
@@ -25,7 +34,7 @@ paths:
       - application/json
       description: Takes params from frontend and returns YearlyTotals for Compound
         Interest
-      operationId: auth-login
+      operationId: Calculator
       parameters:
       - description: Values from user
         in: body

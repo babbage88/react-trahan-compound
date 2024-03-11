@@ -28,7 +28,7 @@ const docTemplate = `{
                     "Calc"
                 ],
                 "summary": "Compund Interest calculation",
-                "operationId": "auth-login",
+                "operationId": "Calculator",
                 "parameters": [
                     {
                         "description": "Values from user",
@@ -53,7 +53,21 @@ const docTemplate = `{
     },
     "definitions": {
         "main.InitialNumericInput": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+                "initAmount": {
+                    "type": "number"
+                },
+                "interestRate": {
+                    "type": "number"
+                },
+                "monthlyContribution": {
+                    "type": "number"
+                },
+                "numberOfYears": {
+                    "type": "integer"
+                }
+            }
         },
         "main.YearlyTotals": {
             "type": "object",

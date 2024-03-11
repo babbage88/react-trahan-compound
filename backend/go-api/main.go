@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 
@@ -21,10 +20,10 @@ type YearlyTotals struct {
 }
 
 type InitialNumericInput struct {
-	initAmount          float64
-	monthlyContribution float64
-	interestRate        float32
-	numberOfYears       int
+	InitAmount          float64 `json:"initAmount"`
+	MonthlyContribution float64 `json:"monthlyContribution"`
+	InterestRate        float32 `json:"interestRate"`
+	NumberOfYears       int     `json:"numberOfYears"`
 }
 
 func calculateCompoundInterest(initAmount float64, monthlyContribution float64, interestRate float32, numberOfYears int) []YearlyTotals {
@@ -58,36 +57,32 @@ func calculateCompoundInterest(initAmount float64, monthlyContribution float64, 
 // @Summary Compund Interest calculation
 // @Description Takes params from frontend and returns YearlyTotals for Compound Interest
 // @Tags Calc
-// @ID auth-login
-// @Accept  json
+// @ID Calculator
+// @Accept  application/json
+// @Content
 // @Produce  json
 // @Param InitialNumericInput body InitialNumericInput true "Values from user"
 // @Success 200 {object} YearlyTotals
 // @Router /compound-interest [post]
 func compoundInterestHandler(w http.ResponseWriter, r *http.Request) {
-	// parse variables form post
-	r.ParseForm()
 
 	var request_input InitialNumericInput
-
-	err := json.NewDecoder(r.Body).Decode(&request_input)
+	decoder := json.NewDecoder(r.Body)
+	err := decoder.Decode(&request_input)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
+		panic(err)
 	}
+	log.Println(request_input.InitAmount)
 
 	// Call the compound interest calculation function
-	yearlyTotals := calculateCompoundInterest(request_input.initAmount, request_input.monthlyContribution, float32(request_input.interestRate), int(request_input.numberOfYears))
+	yearlyTotals := calculateCompoundInterest(request_input.InitAmount, request_input.MonthlyContribution, float32(request_input.InterestRate), int(request_input.NumberOfYears))
 
-	fmt.Println(yearlyTotals)
 	// Serialize response to JSON
 	jsonResponse, err := json.Marshal(yearlyTotals)
 	if err != nil {
 		http.Error(w, "Failed to marshal JSON response", http.StatusInternalServerError)
 		return
 	}
-
-	fmt.Println(jsonResponse)
 
 	// Set response headers and write JSON response
 	w.Header().Set("Content-Type", "application/json")
@@ -96,9 +91,10 @@ func compoundInterestHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	http.HandleFunc("/swagger/", httpSwagger.WrapHandler)
-	http.HandleFunc("/compound-interest", compoundInterestHandler)
+	mux := http.NewServeMux()
+	mux.HandleFunc("/swagger/", httpSwagger.WrapHandler)
+	mux.HandleFunc("/compound-interest", compoundInterestHandler)
 
 	log.Println("Starting server on :8080...")
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	log.Fatal(http.ListenAndServe(":8080", mux))
 }
