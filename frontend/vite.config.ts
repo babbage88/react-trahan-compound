@@ -14,6 +14,9 @@ export default defineConfig({
     strictPort: true,
    },
    server: {
+    hmr: {
+      port: 3010,
+    },
     port: 3001,
     strictPort: true,
     host: true,
