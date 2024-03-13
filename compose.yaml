@@ -4,6 +4,7 @@ services:
     image: haproxy
     ports:
       - "80:80"
+      - "8404:8404"
     volumes:
       - ./infrastructure:/usr/local/etc/haproxy
     networks:
@@ -18,7 +19,7 @@ services:
     networks:
       - dockerdev
     deploy:
-      replicas: 3
+      replicas: 4
   go-backend:
     build:
       context: ./backend/go-api/
@@ -28,7 +29,7 @@ services:
     networks:
       - dockerdev
     deploy:
-      replicas: 3
+      replicas: 5
 networks:
   dockerdev:
     driver: bridge
