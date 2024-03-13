@@ -65,8 +65,7 @@ const CompoundInterestCalculator = () => {
 
         for (let i = 0; i < months; i++){
           const monthlyIntGain: number = total * monthlyRate;
-          total = total + monthlyContribution;
-          total = total + monthlyIntGain;
+          total = total + monthlyIntGain + monthlyContribution;
         }
         yearlyInterest = (total - annualContribution) - yearlyStart; 
         yearlyIncome = (interestRate / 100) * .4 * total;
