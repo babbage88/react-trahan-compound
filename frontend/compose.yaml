@@ -1,24 +1,24 @@
-version: '3'
+version: "3.8"
 services:
   frontend:
+    image: git.trahan.dev/jtrahan/react-static:dev
     build:
-      context: ./frontend/
+      context: ./
     environment:
       NODE_ENV: production
     ports:
-      - 3001:3001
+      - 3001:80
     networks:
-      - dockerdev
+      - ovnet1
   go-backend:
+    image: git.trahan.dev/jtrahan/go-backend:dev
     build:
-      context: ./backend/go-api/
+      context: ../backend/go-api/
       target: final
     ports:
-      - 8080:8080
+      - 8280:8080
     networks:
-      - dockerdev
+      - ovnet1
 networks:
-  dockerdev:
-    driver: bridge
-
-
+  ovnet1:
+    external: true
