@@ -105,11 +105,15 @@ func compoundInterestHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write(jsonResponse)
 }
 
+// func healthCheck(w http.ResponseWriter, r *http.Request) {
+	
+//}
+
 func main() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/swagger/", httpSwagger.WrapHandler)
 	mux.HandleFunc("/compound-interest", compoundInterestHandler)
 
-	log.Println("Starting server on :8080...")
-	log.Fatal(http.ListenAndServe(":8080", mux))
+	log.Println("Starting server on :8283...")
+	log.Fatal(http.ListenAndServe(":8283", mux))
 }
