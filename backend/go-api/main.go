@@ -106,6 +106,12 @@ func compoundInterestHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write(jsonResponse)
 }
 
+// healthCheckHandler godoc
+// @Summary Returns Server Health statuses
+// @Description Retures Date/Time Server Hostname and Health status if API.
+// @Produce  json
+// @Success 200 {object} hlthchk.ServerHealthStats
+// @Router /api/healthstats [get]
 func healthCheckHandler(w http.ResponseWriter, r *http.Request) {
 	healthStats := hlthchk.GetHealthStats()
 	jsonResponse, err := json.Marshal(healthStats)
