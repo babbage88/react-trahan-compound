@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 
+	hlthchk "github.com/babbage88/go-compound-api/api/health"
 	_ "github.com/babbage88/go-compound-api/swagger"
 
 	httpSwagger "github.com/swaggo/http-swagger/v2"
@@ -105,15 +106,25 @@ func compoundInterestHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write(jsonResponse)
 }
 
-// func healthCheck(w http.ResponseWriter, r *http.Request) {
-	
-//}
+func healthCheckHandler(w http.ResponseWriter, r *http.Request) {
+	healthStats := hlthchk.GetHealthStats()
+	jsonResponse, err := json.Marshal(healthStats)
+	if err != nil {
+		http.Error(w, "Healthcheck Failed", http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(jsonResponse)
+}
 
 func main() {
+
 	mux := http.NewServeMux()
 	mux.HandleFunc("/swagger/", httpSwagger.WrapHandler)
 	mux.HandleFunc("/compound-interest", compoundInterestHandler)
-
+	mux.HandleFunc("/api/healthstats", healthCheckHandler)
 	log.Println("Starting server on :8283...")
 	log.Fatal(http.ListenAndServe(":8283", mux))
 }
