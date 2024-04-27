@@ -1,4 +1,13 @@
 definitions:
+  hlthchk.ServerHealthStats:
+    properties:
+      currentDateTime:
+        type: string
+      hostname:
+        type: string
+      message:
+        type: string
+    type: object
   main.InitialNumericInput:
     properties:
       initAmount:
@@ -28,6 +37,17 @@ definitions:
 info:
   contact: {}
 paths:
+  /api/healthstats:
+    get:
+      description: Retures Date/Time Server Hostname and Health status if API.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hlthchk.ServerHealthStats'
+      summary: Returns Server Health statuses
   /compound-interest:
     post:
       consumes:
