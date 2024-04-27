@@ -1,4 +1,4 @@
-package health
+package testhealth
 
 import (
 	"log"
@@ -13,10 +13,6 @@ func getHostname() string {
 		os.Exit(1)
 	}
 
-	log.Println("Hostname: %v", hostname)
+	log.Println("Hostname:", hostname)
 	return hostname
-}
-
-func main() {
-	getHostname()
 }

@@ -2,6 +2,10 @@ module github.com/babbage88/go-compound-api
 
 go 1.21.5
 
+require internal/testhealth v0.0.0
+
+replace internal/testhealth v0.0.0 => ./internal/testhealth
+
 require (
 	github.com/swaggo/http-swagger/v2 v2.0.2
 	github.com/swaggo/swag v1.16.3

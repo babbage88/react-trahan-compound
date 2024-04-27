@@ -106,14 +106,14 @@ func compoundInterestHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 // func healthCheck(w http.ResponseWriter, r *http.Request) {
-	
+
 //}
 
 func main() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/swagger/", httpSwagger.WrapHandler)
 	mux.HandleFunc("/compound-interest", compoundInterestHandler)
-
+	log.Println(testhealth.getHostname())
 	log.Println("Starting server on :8283...")
 	log.Fatal(http.ListenAndServe(":8283", mux))
 }
