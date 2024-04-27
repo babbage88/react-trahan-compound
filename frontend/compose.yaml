@@ -16,7 +16,7 @@ services:
       context: ../backend/go-api/
       target: final
     ports:
-      - 8280:8080
+      - 8283:8283
     networks:
       - ovnet1
 networks:
