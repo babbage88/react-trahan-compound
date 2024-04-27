@@ -120,14 +120,11 @@ func healthCheckHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	// var hostnme = hlthchk.getHostname()
-	test := hlthchk.GetHostname()
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("/swagger/", httpSwagger.WrapHandler)
 	mux.HandleFunc("/compound-interest", compoundInterestHandler)
 	mux.HandleFunc("/api/healthstats", healthCheckHandler)
-	log.Println(test)
 	log.Println("Starting server on :8283...")
 	log.Fatal(http.ListenAndServe(":8283", mux))
 }
