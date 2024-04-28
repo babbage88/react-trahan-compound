@@ -1,7 +1,8 @@
 package hlthchk
 
 import (
-	"log"
+	"fmt"
+	"log/slog"
 	"os"
 	"time"
 )
@@ -13,14 +14,13 @@ type ServerHealthStats struct {
 }
 
 func GetHostname() string {
-	log.SetFlags(log.LstdFlags | log.Lshortfile)
 	hostname, err := os.Hostname()
 	if err != nil {
-		log.Println(err)
+		slog.Info(fmt.Sprint(err))
 		os.Exit(1)
 	}
 
-	log.Println("Hostname:", hostname)
+	slog.Debug(fmt.Sprint("Hostname:", hostname))
 	return hostname
 }
 
@@ -31,6 +31,6 @@ func GetHealthStats() []ServerHealthStats {
 		CurrentDateTime: time.Now(),
 		Message:         "Healthy",
 	})
-
+	slog.Debug("Responding to Helthcheck")
 	return serverHealthStats
 }
