@@ -21,6 +21,9 @@ const CompoundInterestCalculator = () => {
   const monthlyRate: number = (interestRate /100) / 12;
   // const totalNumberOfMonths: number = numberOfYears * 12;
   const months: number = 12; 
+  const test: string = import.meta.env.VITE_API_URL;
+  console.log(test)
+  
 
  
   useEffect(() => {
