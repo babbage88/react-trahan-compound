@@ -5,7 +5,7 @@ services:
     build:
       context: ./
     environment:
-      NODE_ENV: production
+      NODE_ENV: development
     ports:
       - 3001:80
     networks:

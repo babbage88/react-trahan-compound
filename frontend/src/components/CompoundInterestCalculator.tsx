@@ -21,10 +21,7 @@ const CompoundInterestCalculator = () => {
   const monthlyRate: number = (interestRate /100) / 12;
   // const totalNumberOfMonths: number = numberOfYears * 12;
   const months: number = 12; 
-  const test: string = import.meta.env.VITE_API_URL;
-  console.log(test)
-  
-
+  const apiUrl = import.meta.env.VITE_API_URL;
  
   useEffect(() => {
     if (location.state) {
@@ -37,6 +34,8 @@ const CompoundInterestCalculator = () => {
   }, [location.state]);
 
   function calculateCompoundInterest() {
+    console.log("test import meta var")
+    console.log(apiUrl)
     let total: number = initAmount;
     const annualContribution: number = monthlyContribution * 12;
     const yearlyTotals: YearlyTotals[] = [];
