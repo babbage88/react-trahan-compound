@@ -16,6 +16,7 @@ const CompoundInterestCalculator = () => {
   const [interestRate, setInterestRate] = useState<number>(0);
   const [numberOfYears, setNumberOfYears] = useState<number>(0);
   const [tabledata, setTableData] = useState<YearlyTotals[]>([]);
+  // const [testtabledata, setTestTableData] = useState<YearlyTotals[]>([]);
   // const [calcMonthly, setCalcMonthly] = useState<boolean>(true);
   const calcMonthly: boolean = true; 
   const monthlyRate: number = (interestRate /100) / 12;
@@ -32,6 +33,26 @@ const CompoundInterestCalculator = () => {
       if (numberOfYears) setNumberOfYears(numberOfYears);
     }
   }, [location.state]);
+
+  /*
+  function sendCompoundReq(){
+  
+   const compoundUri: string = apiUrl + 'api/compound-interest'
+
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'accept': 'application/json', 'Content-Type': 'application/json' },
+      body: JSON.stringify({ initAmount: initAmount, monthlyContribution: monthlyContribution, interestRate: interestRate, numberOfYears: numberOfYears })
+    };
+
+    console.log(requestOptions)
+
+    fetch(compoundUri, requestOptions)
+    .then(response => response.json())
+    .then(data => setTestTableData(data));
+  }
+  console.log(testtabledata)
+  sendCompoundReq()*/
 
   function calculateCompoundInterest() {
     console.log("test import meta var")
