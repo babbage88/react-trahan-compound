@@ -1,39 +1,34 @@
 import React, { useState } from 'react';
+import { YearlyTotals } from './ui/columns';
 
 const TestApi: React.FC = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [result, setResult] = useState<any>(null);
+  const [results, setResult] = useState<YearlyTotals[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const apiUrl = import.meta.env.VITE_API_URL;
+  const url: string = apiUrl + 'api/compound-interest'
 
+  const initAmount: number = 1000
+  const monthlyContribution: number = 0
+  const interestRate: number = 10
+  const numberOfYears: number = 14
+
+  
   const calculateCompoundInterest = async () => {
-    const url = 'https://calc.api.trahan.dev/api/compound-interest';
-    const requestData = {
-      initAmount: 1000,
-      interestRate: 10,
-      monthlyContribution: 0,
-      numberOfYears: 10
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'accept': 'application/json', 'Content-Type': 'application/json' },
+      body: JSON.stringify({ initAmount: initAmount, monthlyContribution: monthlyContribution, interestRate: interestRate, numberOfYears: numberOfYears })
     };
 
     try {
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(requestData)
-      });
+       await fetch(url, requestOptions)
+      .then(response => response.json())
+      .then(data => setResult(data));
 
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-
-      const responseData = await response.json();
-      setResult(responseData);
       setError(null);
     } catch (error) {
       console.error('There was a problem with the fetch operation:', error);
-      setResult(null);
       setError('Error fetching data. Please try again later.');
     }
   }
@@ -42,13 +37,12 @@ const TestApi: React.FC = () => {
     <div>
       <button onClick={calculateCompoundInterest}>Calculate Compound Interest</button>
       {error && <div>{error}</div>}
-      {result && (
-        <div>
-          <h2>Compound Interest Result</h2>
-          <p>Amount: {result.amount}</p>
-          <p>Interest: {result.interest}</p>
+      {results && results.length && results.map( result =>
+        <li key={result.year}>
+          <ul>Total Amount: {result.total}</ul>
+          <ul>Yearly Interest: {result.yearlyInterest}</ul>
           {/* Add more fields as needed */}
-        </div>
+        </li>
       )}
     </div>
   );

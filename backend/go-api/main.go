@@ -29,6 +29,11 @@ type InitialNumericInput struct {
 	NumberOfYears       int     `json:"numberOfYears"`
 }
 
+func enableCors(w *http.ResponseWriter) {
+	(*w).Header().Set("Access-Control-Allow-Origin", "*")
+	(*w).Header().Set("Access-Control-Allow-Headers", "Content-Type")
+}
+
 func calculateCompoundInterest(initAmount float64, monthlyContribution float64, interestRate float32, numberOfYears int) []YearlyTotals {
 	var yearlyTotals []YearlyTotals
 	var total float64 = initAmount
@@ -82,12 +87,18 @@ func calculateCompoundInterest(initAmount float64, monthlyContribution float64, 
 // @Success 200 {object} YearlyTotals
 // @Router /api/compound-interest [post]
 func compoundInterestHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method == "OPTIONS" {
+		enableCors(&w)
+		return
+	}
 
+	enableCors(&w)
 	var request_input InitialNumericInput
 	decoder := json.NewDecoder(r.Body)
 	err := decoder.Decode(&request_input)
 	if err != nil {
-		panic(err)
+		http.Error(w, "Failed to decode JSON request", http.StatusBadRequest)
+		return
 	}
 	slog.Info(fmt.Sprint("Initial Amount: ", request_input.InitAmount))
 	slog.Info(fmt.Sprint("Interest Rate: ", request_input.InterestRate))
