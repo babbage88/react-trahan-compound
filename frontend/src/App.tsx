@@ -4,7 +4,6 @@ import { ThemeProvider } from "@/components/theme-provider"
 import CalculatedTable from './components/CalculatedTable'
 import CompoundInterestCalculator from './components/CompoundInterestCalculator';
 import { BetaToast } from './components/ui/toastbetanotice';
-import TestApi  from "@/components/TestApi";
 
 function App() {
 
@@ -16,7 +15,6 @@ function App() {
         <Routes>
           <Route path="/" element={<CompoundInterestCalculator />} />
           <Route path="/calculated" element={<CalculatedTable />} />
-          <Route path="/testapi" element={<TestApi />} />
         </Routes>
       </Layout>
       </ThemeProvider>
