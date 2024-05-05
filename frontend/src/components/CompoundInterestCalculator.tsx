@@ -17,7 +17,6 @@ const CompoundInterestCalculator = () => {
   const [numberOfYears, setNumberOfYears] = useState<number>(0);
   const [tabledata, setTableData] = useState<YearlyTotals[]>([]);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [error, setError] = useState<string | null>(null);
 
 
   const apiUrl = import.meta.env.VITE_API_URL;
@@ -61,7 +60,6 @@ const CompoundInterestCalculator = () => {
       setTableData(yearlyTotalsData);
       console.log(tabledata);
   
-      setError(null);
       navigate('/calculated', {
         state: {
           numberOfYears,
@@ -73,9 +71,8 @@ const CompoundInterestCalculator = () => {
       });
     }
     
-    catch (error) {
-      console.error('There was a problem with the fetch operation:', error);
-      setError('Error fetching data. Please try again later.');
+    catch (e) {
+      console.error('There was a problem with the fetch operation:', e);
     }
   }
 
