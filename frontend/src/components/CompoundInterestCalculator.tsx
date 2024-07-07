@@ -16,12 +16,11 @@ const CompoundInterestCalculator = () => {
   const [interestRate, setInterestRate] = useState<number>(0);
   const [numberOfYears, setNumberOfYears] = useState<number>(0);
   const [tabledata, setTableData] = useState<YearlyTotals[]>([]);
-  // const [calcMonthly, setCalcMonthly] = useState<boolean>(true);
-  const calcMonthly: boolean = true; 
-  const monthlyRate: number = (interestRate /100) / 12;
-  // const totalNumberOfMonths: number = numberOfYears * 12;
-  const months: number = 12; 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
+
+  const apiUrl = import.meta.env.VITE_API_URL;
+  const url: string = apiUrl + 'api/compound-interest'
  
   useEffect(() => {
     if (location.state) {
@@ -33,64 +32,48 @@ const CompoundInterestCalculator = () => {
     }
   }, [location.state]);
 
-  function calculateCompoundInterest() {
-    let total: number = initAmount;
-    const annualContribution: number = monthlyContribution * 12;
-    const yearlyTotals: YearlyTotals[] = [];
-    let yearlyInterest: number = 0;
-    let yearlyIncome: number = 0;
-    
-    if(!calcMonthly){
-      for (let i = 0; i < numberOfYears; i++) {
-        yearlyInterest = (interestRate / 100) * total;
-        yearlyIncome = (interestRate / 100) * .4 * total;
-        total = total + annualContribution;
-        total *= 1 + interestRate / 100;
-
-        tabledata.push({
-          year: i + 1,
-          total: total,
-          contributions: annualContribution * (i + 1),
-          yearlyInterest: yearlyInterest,
-          yearlyIncome: yearlyIncome,
-          gainfromint: total - (initAmount + (annualContribution * i))
-        });
-    }
-      setTableData(yearlyTotals);
-    }
-
-    else{
-      for (let i = 0; i < numberOfYears; i++) {
-        const yearlyStart: number = total
-
-        for (let i = 0; i < months; i++){
-          const monthlyIntGain: number = total * monthlyRate;
-          total = total + monthlyIntGain + monthlyContribution;
-        }
-        yearlyInterest = (total - annualContribution) - yearlyStart; 
-        yearlyIncome = (interestRate / 100) * .4 * total;
-
-        tabledata.push({
-          year: i + 1,
-          total: total,
-          contributions: annualContribution * (i + 1),
-          yearlyInterest: yearlyInterest,
-          yearlyIncome: yearlyIncome,
-          gainfromint: total - (initAmount + (annualContribution * i))
-        });
-    }
-      setTableData(yearlyTotals);
-    }
-
-    navigate('/calculated', {
+  const calculateCompoundInterest = async () => {
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'accept': 'application/json', 'Content-Type': 'application/json' },
+      body: JSON.stringify({ initAmount: initAmount, monthlyContribution: monthlyContribution, interestRate: interestRate, numberOfYears: numberOfYears })
+    };
+  
+    try {
+      const response = await fetch(url, requestOptions);
+      if (!response.ok) {
+        throw new Error('Failed to fetch data');
+      }
+      
+      const data = await response.json();
+  
+      // Assuming data is an array of objects with properties matching YearlyTotals type
+      const yearlyTotalsData = data.map((item: YearlyTotals) => ({
+        year: item.year,
+        total: item.total,
+        contributions: item.contributions,
+        yearlyInterest: item.yearlyInterest,
+        yearlyIncome: item.yearlyIncome,
+        gainfromint: item.gainfromint
+      }));
+  
+      setTableData(yearlyTotalsData);
+      console.log(tabledata);
+  
+      navigate('/calculated', {
         state: {
           numberOfYears,
           monthlyContribution,
           initAmount,
-          tabledata,
+          tabledata: yearlyTotalsData,
           interestRate
         }
-      }); // Navigate to calculated page after calculation
+      });
+    }
+    
+    catch (e) {
+      console.error('There was a problem with the fetch operation:', e);
+    }
   }
 
   return (

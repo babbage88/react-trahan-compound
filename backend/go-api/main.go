@@ -2,10 +2,14 @@ package main
 
 import (
 	"encoding/json"
+	"flag"
 	"fmt"
 	"log/slog"
 	"net/http"
 	"os"
+	"runtime/debug"
+
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 
 	hlthchk "github.com/babbage88/go-compound-api/api/health"
 	_ "github.com/babbage88/go-compound-api/swagger"
@@ -27,6 +31,11 @@ type InitialNumericInput struct {
 	MonthlyContribution float64 `json:"monthlyContribution"`
 	InterestRate        float32 `json:"interestRate"`
 	NumberOfYears       int     `json:"numberOfYears"`
+}
+
+func enableCors(w *http.ResponseWriter) {
+	(*w).Header().Set("Access-Control-Allow-Origin", "*")
+	(*w).Header().Set("Access-Control-Allow-Headers", "Content-Type")
 }
 
 func calculateCompoundInterest(initAmount float64, monthlyContribution float64, interestRate float32, numberOfYears int) []YearlyTotals {
@@ -82,12 +91,18 @@ func calculateCompoundInterest(initAmount float64, monthlyContribution float64, 
 // @Success 200 {object} YearlyTotals
 // @Router /api/compound-interest [post]
 func compoundInterestHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method == "OPTIONS" {
+		enableCors(&w)
+		return
+	}
 
+	enableCors(&w)
 	var request_input InitialNumericInput
 	decoder := json.NewDecoder(r.Body)
 	err := decoder.Decode(&request_input)
 	if err != nil {
-		panic(err)
+		http.Error(w, "Failed to decode JSON request", http.StatusBadRequest)
+		return
 	}
 	slog.Info(fmt.Sprint("Initial Amount: ", request_input.InitAmount))
 	slog.Info(fmt.Sprint("Interest Rate: ", request_input.InterestRate))
@@ -134,11 +149,27 @@ func healthCheckHandler(w http.ResponseWriter, r *http.Request) {
 func main() {
 	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
 	slog.SetDefault(logger)
+	buildInfo, _ := debug.ReadBuildInfo()
+
+	srvport := flag.String("srvadr", ":8283", "Address and port that http server will listed on. :8238 is default")
+	flag.Parse()
+
+	servername := hlthchk.GetHostname()
+	child := logger.With(
+		slog.String("Hostname", servername),
+		slog.Group("program_info",
+			slog.Int("pid", os.Getpid()),
+			slog.String("Listen Address:", *srvport),
+			slog.String("go_version", buildInfo.GoVersion),
+		),
+	)
 
 	mux := http.NewServeMux()
+	mux.Handle("/metrics", promhttp.Handler())
 	mux.HandleFunc("/swagger/", httpSwagger.WrapHandler)
 	mux.HandleFunc("/api/compound-interest", compoundInterestHandler)
 	mux.HandleFunc("/api/healthstats", healthCheckHandler)
-	logger.Info("Starting server on :8283...")
-	http.ListenAndServe(":8283", mux)
+
+	child.Info("Starting http server.")
+	http.ListenAndServe(*srvport, mux)
 }
