@@ -15,7 +15,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/compound-interest": {
+        "/api/compound-interest": {
             "post": {
                 "description": "Takes params from frontend and returns YearlyTotals for Compound Interest",
                 "consumes": [
@@ -49,9 +49,44 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/api/healthstats": {
+            "get": {
+                "description": "Retures Date/Time Server Hostname and Health status if API.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "HealthCheck"
+                ],
+                "summary": "Returns Server Health statuses",
+                "operationId": "HealtchCheck",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/hlthchk.ServerHealthStats"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
+        "hlthchk.ServerHealthStats": {
+            "type": "object",
+            "properties": {
+                "currentDateTime": {
+                    "type": "string"
+                },
+                "hostname": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
         "main.InitialNumericInput": {
             "type": "object",
             "properties": {
