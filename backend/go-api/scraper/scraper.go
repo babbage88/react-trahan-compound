@@ -12,7 +12,7 @@ func main() {
 	var url string = "https://www.megamillions.com/Winning-Numbers.aspx"
 	fmt.Println("Scraping MegaMillions Cash Prize..")
 	c := colly.NewCollector()
-	c.AllowedDomains("https://www.megamillions.com","megamillions.com"),
+	c.AllowedDomains()
 
 	err := c.Visit(url)
 	if err != nil {
