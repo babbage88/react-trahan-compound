@@ -23,8 +23,24 @@ type InitialNumericInput struct {
 	NumberOfYears       int     `json:"numberOfYears"`
 }
 
+type MonthlyRateProvider interface {
+	CalculateMonthlyInterest() (float32, error)
+}
+
+func (in InitialNumericInput) CalculateMonthlyInterest() (float32, error) {
+	/* TODO: When power comes back, figure out how to check the float32 casting/conversion and return possible errors.
+	for now, just returning nil.
+	*/
+	var months int8 = 12
+	var err error = nil
+	var monthlyIntRate float32 = (in.InterestRate / 100) / float32(months)
+
+	return monthlyIntRate, err
+
+}
+
 func enableCors(w *http.ResponseWriter) {
-	(*w).Header().Set("Access-Control-Allow-Origin", "calc.trahan.dev")
+	(*w).Header().Set("Access-Control-Allow-Origin", "*")
 	(*w).Header().Set("Access-Control-Allow-Headers", "Content-Type")
 }
 
@@ -33,7 +49,7 @@ func calculateCompoundInterest(initalInput InitialNumericInput) []YearlyTotals {
 	var total float64 = initalInput.InitAmount
 	var annualContribution float64 = initalInput.MonthlyContribution * 12
 	var months int8 = 12
-	var monthlyIntRate float32 = (initalInput.InterestRate / 100) / float32(months)
+	monthlyIntRate, _ := initalInput.CalculateMonthlyInterest()
 
 	for i := 0; i < initalInput.NumberOfYears; i++ {
 		slog.Debug("Year Value", slog.String("Year: ", fmt.Sprint(i)))
@@ -82,6 +98,7 @@ func calculateCompoundInterest(initalInput InitialNumericInput) []YearlyTotals {
 // @Router /api/compound-interest [post]
 func CompoundInterestHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "OPTIONS" {
+		slog.Info("OPTIONS Header, enabling CORS", slog.String("Request Host", r.Host), slog.String("Remote Addr", r.RemoteAddr))
 		enableCors(&w)
 		return
 	}
