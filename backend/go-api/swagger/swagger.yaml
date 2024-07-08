@@ -21,9 +21,9 @@ definitions:
     type: object
   main.YearlyTotals:
     properties:
-      contributions:
+      yearlyContributions:
         type: number
-      gainfromint:
+      yearlyTotalGains:
         type: number
       total:
         type: number

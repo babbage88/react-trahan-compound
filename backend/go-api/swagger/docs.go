@@ -107,10 +107,10 @@ const docTemplate = `{
         "main.YearlyTotals": {
             "type": "object",
             "properties": {
-                "contributions": {
+                "yearlyContributions": {
                     "type": "number"
                 },
-                "gainfromint": {
+                "yearlyTotalGains": {
                     "type": "number"
                 },
                 "total": {
