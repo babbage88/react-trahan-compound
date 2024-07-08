@@ -16,18 +16,6 @@ import (
 	httpSwagger "github.com/swaggo/http-swagger/v2"
 )
 
-// calculateCompoundInterest godoc
-// @Summary Compund Interest calculation
-// @Description Takes params from frontend and returns YearlyTotals for Compound Interest
-// @Tags Calc
-// @ID Calculator
-// @Accept  application/json
-// @Content
-// @Produce  json
-// @Param InitialNumericInput body InitialNumericInput true "Values from user"
-// @Success 200 {object} YearlyTotals
-// @Router /api/compound-interest [post]
-
 func main() {
 	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
 	slog.SetDefault(logger)

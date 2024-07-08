@@ -8,12 +8,12 @@ import (
 )
 
 type YearlyTotals struct {
-	Year           int     `json:"year"`
-	Total          float64 `json:"total"`
-	Contributions  float64 `json:"contributions"`
-	YearlyInterest float64 `json:"yearlyInterest"`
-	YearlyIncome   float64 `json:"yearlyIncome"`
-	GainFromInt    float64 `json:"gainfromint"`
+	Year                int     `json:"year"`
+	Total               float64 `json:"total"`
+	YearlyContributions float64 `json:"yearlyContributions"`
+	YearlyInterest      float64 `json:"yearlyInterest"`
+	YearlyIncome        float64 `json:"yearlyIncome"`
+	YearlyTotalGains    float64 `json:"yearlyTotalGains"`
 }
 
 type InitialNumericInput struct {
@@ -57,12 +57,12 @@ func calculateCompoundInterest(initalInput InitialNumericInput) []YearlyTotals {
 		slog.Debug("Yearly Income.", slog.String("YearlyIncome", fmt.Sprint(yearlyIncome)))
 
 		yearlyTotals = append(yearlyTotals, YearlyTotals{
-			Year:           i + 1,
-			Total:          total,
-			Contributions:  annualContribution * float64(i+1),
-			YearlyInterest: yearlyInterest,
-			YearlyIncome:   yearlyIncome,
-			GainFromInt:    total - (initalInput.InitAmount + (annualContribution * float64(i))),
+			Year:                i + 1,
+			Total:               total,
+			YearlyContributions: annualContribution * float64(i+1),
+			YearlyInterest:      yearlyInterest,
+			YearlyIncome:        yearlyIncome,
+			YearlyTotalGains:    total - (initalInput.InitAmount + (annualContribution * float64(i))),
 		})
 	}
 
