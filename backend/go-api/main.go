@@ -14,6 +14,7 @@ import (
 	hlthchk "github.com/babbage88/go-compound-api/api/health"
 	_ "github.com/babbage88/go-compound-api/swagger"
 
+	compound_interest_handler "github.com/babbage88/go-compound-api/api/compound_handler"
 	httpSwagger "github.com/swaggo/http-swagger/v2"
 )
 
@@ -167,7 +168,7 @@ func main() {
 	mux := http.NewServeMux()
 	mux.Handle("/metrics", promhttp.Handler())
 	mux.HandleFunc("/swagger/", httpSwagger.WrapHandler)
-	mux.HandleFunc("/api/compound-interest", compoundInterestHandler)
+	mux.HandleFunc("/api/compound-interest", compound_interest_handler.CompoundInterestHandler)
 	mux.HandleFunc("/api/healthstats", healthCheckHandler)
 
 	child.Info("Starting http server.")

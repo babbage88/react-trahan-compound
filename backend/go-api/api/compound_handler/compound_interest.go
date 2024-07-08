@@ -24,18 +24,18 @@ type InitialNumericInput struct {
 }
 
 func enableCors(w *http.ResponseWriter) {
-	(*w).Header().Set("Access-Control-Allow-Origin", "*")
+	(*w).Header().Set("Access-Control-Allow-Origin", "calc.trahan.dev")
 	(*w).Header().Set("Access-Control-Allow-Headers", "Content-Type")
 }
 
-func calculateCompoundInterest(initAmount float64, monthlyContribution float64, interestRate float32, numberOfYears int) []YearlyTotals {
+func calculateCompoundInterest(initalInput InitialNumericInput) []YearlyTotals {
 	var yearlyTotals []YearlyTotals
-	var total float64 = initAmount
-	var annualContribution float64 = monthlyContribution * 12
+	var total float64 = initalInput.InitAmount
+	var annualContribution float64 = initalInput.MonthlyContribution * 12
 	var months int8 = 12
-	var monthlyIntRate float32 = (interestRate / 100) / float32(months)
+	var monthlyIntRate float32 = (initalInput.InterestRate / 100) / float32(months)
 
-	for i := 0; i < numberOfYears; i++ {
+	for i := 0; i < initalInput.NumberOfYears; i++ {
 		slog.Debug("Year Value", slog.String("Year: ", fmt.Sprint(i)))
 		var yearlyStart float64 = total
 		slog.Debug("Total Start: ", slog.String("Total", fmt.Sprint(total)))
@@ -43,8 +43,8 @@ func calculateCompoundInterest(initAmount float64, monthlyContribution float64, 
 		for i := 0; i < int(months); i++ {
 			slog.Debug("Monthly Iteration", slog.String("Month Number ", fmt.Sprint(i)))
 			var monthlyGain float64 = total * float64(monthlyIntRate)
-			slog.Debug("Adding Monthly contribution to total", slog.String("Monthly Contribution", fmt.Sprint(monthlyContribution)))
-			total = total + monthlyContribution
+			slog.Debug("Adding Monthly contribution to total", slog.String("Monthly Contribution", fmt.Sprint(initalInput.MonthlyContribution)))
+			total = total + initalInput.MonthlyContribution
 			slog.Debug("Adding monthly gains to Total", slog.String("Monthly Gain", fmt.Sprint(monthlyGain)))
 			total = total + monthlyGain
 			slog.Debug("MOnthly Gains added", slog.String("New Total after contribution and gains", fmt.Sprint(total)))
@@ -53,8 +53,8 @@ func calculateCompoundInterest(initAmount float64, monthlyContribution float64, 
 		var yearlyInterest float64 = (total - annualContribution) - yearlyStart
 		slog.Debug("All yearly calculations completed", slog.String("Year Number", fmt.Sprint(i)))
 		slog.Debug("Yearly interest/Gains", slog.String("Yearly Interest", fmt.Sprint(yearlyInterest)))
-		var yearlyIncome float64 = (float64(interestRate) / 100) * .4 * total
-		slog.Debug("", slog.String("YearlyIncome", fmt.Sprint(yearlyIncome)))
+		var yearlyIncome float64 = (float64(initalInput.InterestRate) / 100) * .4 * total
+		slog.Debug("Yearly Income.", slog.String("YearlyIncome", fmt.Sprint(yearlyIncome)))
 
 		yearlyTotals = append(yearlyTotals, YearlyTotals{
 			Year:           i + 1,
@@ -62,7 +62,7 @@ func calculateCompoundInterest(initAmount float64, monthlyContribution float64, 
 			Contributions:  annualContribution * float64(i+1),
 			YearlyInterest: yearlyInterest,
 			YearlyIncome:   yearlyIncome,
-			GainFromInt:    total - (initAmount + (annualContribution * float64(i))),
+			GainFromInt:    total - (initalInput.InitAmount + (annualContribution * float64(i))),
 		})
 	}
 
@@ -80,7 +80,7 @@ func calculateCompoundInterest(initAmount float64, monthlyContribution float64, 
 // @Param InitialNumericInput body InitialNumericInput true "Values from user"
 // @Success 200 {object} YearlyTotals
 // @Router /api/compound-interest [post]
-func compoundInterestHandler(w http.ResponseWriter, r *http.Request) {
+func CompoundInterestHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "OPTIONS" {
 		enableCors(&w)
 		return
@@ -94,13 +94,14 @@ func compoundInterestHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Failed to decode JSON request", http.StatusBadRequest)
 		return
 	}
+
 	slog.Info(fmt.Sprint("Initial Amount: ", request_input.InitAmount))
 	slog.Info(fmt.Sprint("Interest Rate: ", request_input.InterestRate))
 	slog.Info(fmt.Sprint("Monthly Contribution: ", request_input.MonthlyContribution))
 	slog.Info(fmt.Sprint("Years: ", request_input.NumberOfYears))
 
 	// Call the compound interest calculation function
-	yearlyTotals := calculateCompoundInterest(request_input.InitAmount, request_input.MonthlyContribution, float32(request_input.InterestRate), int(request_input.NumberOfYears))
+	yearlyTotals := calculateCompoundInterest(request_input)
 
 	// Serialize response to JSON
 	jsonResponse, err := json.Marshal(yearlyTotals)
