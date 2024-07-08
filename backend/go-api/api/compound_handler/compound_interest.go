@@ -51,10 +51,10 @@ func calculateCompoundInterest(initAmount float64, monthlyContribution float64, 
 		}
 
 		var yearlyInterest float64 = (total - annualContribution) - yearlyStart
-		slog.Debug(fmt.Sprint("End Year: ", i))
-		slog.Debug(fmt.Sprint("YearlyInterest ", yearlyInterest))
+		slog.Debug("All yearly calculations completed", slog.String("Year Number", fmt.Sprint(i)))
+		slog.Debug("Yearly interest/Gains", slog.String("Yearly Interest", fmt.Sprint(yearlyInterest)))
 		var yearlyIncome float64 = (float64(interestRate) / 100) * .4 * total
-		slog.Debug(fmt.Sprint("YearlyIncome ", yearlyIncome))
+		slog.Debug("", slog.String("YearlyIncome", fmt.Sprint(yearlyIncome)))
 
 		yearlyTotals = append(yearlyTotals, YearlyTotals{
 			Year:           i + 1,
