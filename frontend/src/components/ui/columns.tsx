@@ -3,10 +3,10 @@ import { ColumnDef } from "@tanstack/react-table"
 export type YearlyTotals = {
     year: number
     total: number
-    contributions: number
+    yearlyContributions: number
     yearlyInterest: number
     yearlyIncome: number
-    gainfromint: number
+    yearlyTotalGains: number
   }
 
   export const columns: ColumnDef<YearlyTotals>[] = [
@@ -20,10 +20,10 @@ export type YearlyTotals = {
         },
     },
     {
-        accessorKey: "contributions",
+        accessorKey: "yearlyContributions",
         header: () => <div className="text-right text-nowrap">Total Contributions</div>,
         cell: ({ row }) => {
-            const contributions = parseFloat(row.getValue("contributions"))
+            const contributions = parseFloat(row.getValue("yearlyContributions"))
             const formatted = new Intl.NumberFormat("en-US", {
                 style: "currency",
                 currency: "USD",
@@ -59,10 +59,10 @@ export type YearlyTotals = {
         },
     },
     {
-        accessorKey: "gainfromint",
+        accessorKey: "yearlyTotalGains",
         header: () => <div className="text-right text-nowrap">Total Gains</div>,
         cell: ({ row }) => {
-            const gains = parseFloat(row.getValue("gainfromint"))
+            const gains = parseFloat(row.getValue("yearlyTotalGains"))
             const formatted = new Intl.NumberFormat("en-US", {
                 style: "currency",
                 currency: "USD",

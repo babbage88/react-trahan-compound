@@ -51,10 +51,10 @@ const CompoundInterestCalculator = () => {
       const yearlyTotalsData = data.map((item: YearlyTotals) => ({
         year: item.year,
         total: item.total,
-        contributions: item.contributions,
+        yearlyContributions: item.yearlyContributions,
         yearlyInterest: item.yearlyInterest,
         yearlyIncome: item.yearlyIncome,
-        gainfromint: item.gainfromint
+        yearlyTotalGains: item.yearlyTotalGains
       }));
   
       setTableData(yearlyTotalsData);
