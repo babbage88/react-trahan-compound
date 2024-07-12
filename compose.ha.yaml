@@ -1,0 +1,37 @@
+version: '3'
+services:
+  haproxy:
+    image: haproxy
+    ports:
+      - "80:80"
+      - "8404:8404"
+    volumes:
+      - ./infrastructure:/usr/local/etc/haproxy
+    networks:
+      - dockerdev
+  frontend:
+    build:
+      context: ./frontend/
+    environment:
+      NODE_ENV: production
+    ports:
+      - :3001
+    networks:
+      - dockerdev
+    deploy:
+      replicas: 2
+  go-backend:
+    build:
+      context: ./backend/go-api/
+      target: final
+    ports:
+      - :8080
+    networks:
+      - dockerdev
+    deploy:
+      replicas: 2
+networks:
+  dockerdev:
+    driver: bridge
+
+
