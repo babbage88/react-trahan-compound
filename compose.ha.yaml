@@ -1,22 +1,23 @@
-version: '3'
+version: '3.8'
 services:
   haproxy:
     image: haproxy
     ports:
       - "80:80"
+      - "443:443"
       - "8404:8404"
     volumes:
-      - ./infrastructure:/usr/local/etc/haproxy
+      - ${HA_CONF_DIR-infrastructure/}:/usr/local/etc/haproxy
     networks:
       - ovnet0
       - ovnet1
       - ovnet2
   frontend:
-    image: react-static:${DOCKER_IMG_TAG-dev}
+    image: ${DOCKER_REPO}react-static:${DOCKER_IMG_TAG-dev}
     build:
       context: ./frontend/
     environment:
-      NODE_ENV: development
+      NODE_ENV: ${ENVIRON-development}
     ports:
       - 3001:80
     networks:
@@ -26,7 +27,7 @@ services:
       placement:
         max_replicas_per_node: 1
   go-backend:
-    image: go-backend:${DOCKER_IMG_TAG-dev}
+    image: ${DOCKER_REPO}go-backend:${DOCKER_IMG_TAG-dev}
     build:
       context: ./backend/go-api/
       target: final
