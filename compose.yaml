@@ -1,37 +1,32 @@
-version: '3'
+version: "3.8"
 services:
-  haproxy:
-    image: haproxy
-    ports:
-      - "80:80"
-      - "8404:8404"
-    volumes:
-      - ./infrastructure:/usr/local/etc/haproxy
-    networks:
-      - dockerdev
   frontend:
+    image: react-static:${DOCKER_IMG_TAG-dev}
     build:
       context: ./frontend/
     environment:
-      NODE_ENV: production
+      NODE_ENV: development
     ports:
-      - :3001
+      - 3001:80
     networks:
-      - dockerdev
+      - ovnet1
     deploy:
-      replicas: 4
+      replicas: 2
+      placement:
+        max_replicas_per_node: 1
   go-backend:
+    image: go-backend:${DOCKER_IMG_TAG-dev}
     build:
       context: ./backend/go-api/
       target: final
     ports:
-      - :8080
+      - 8283:8283
     networks:
-      - dockerdev
+      - ovnet1
     deploy:
-      replicas: 5
+      replicas: 2
+      placement:
+        max_replicas_per_node: 1
 networks:
-  dockerdev:
-    driver: bridge
-
-
+  ovnet1:
+    external: true
