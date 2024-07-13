@@ -6,10 +6,13 @@ services:
       - "80:80"
       - "443:443"
       - "8404:8404"
+    volumes:
+      - ${HA_CONF_DIR-infrastructure/}:/usr/local/etc/haproxy
     networks:
       - ovnet0
       - ovnet1
       - ovnet2
+    user: ${HA_UID-1001}
   frontend:
     image: ${DOCKER_REPO}react-static:${DOCKER_IMG_TAG-dev}
     build:
