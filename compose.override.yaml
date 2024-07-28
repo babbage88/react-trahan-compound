@@ -12,8 +12,12 @@ services:
       - ovnet0
       - ovnet1
       - ovnet2
+    secrets:
+     - haproxy_api.test.trahan.dev.pem
+     - haproxy_test.justintrahan.com.pem
+     - haproxy_test.trahan.dev.pem
   frontend:
-    image: ${DOCKER_REPO}react-static:${DOCKER_IMG_TAG-dev}
+    image: ${DOCKER_REGISTRY-jtrahan88/}calc-react-static:${DOCKER_IMG_TAG-v0.9.5-prod}
     build:
       context: ./frontend/
     environment:
@@ -27,7 +31,7 @@ services:
       placement:
         max_replicas_per_node: 1
   go-backend:
-    image: ${DOCKER_REPO}go-backend:${DOCKER_IMG_TAG-dev}
+    image: ${DOCKER_REGISTRY-jtrahan88/}go-backend:${DOCKER_IMG_TAG-v0.9.5-prod}
     build:
       context: ./backend/go-api/
       target: final
@@ -45,4 +49,11 @@ networks:
   ovnet1:
     external: true
   ovnet2:
+    external: true
+secrets:
+  haproxy_api.test.trahan.dev.pem:
+    external: true
+  haproxy_test.justintrahan.com.pem:
+    external: true
+  haproxy_test.trahan.dev.pem:
     external: true

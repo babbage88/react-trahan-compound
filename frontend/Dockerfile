@@ -9,7 +9,9 @@ RUN npm install
 
 COPY . .
 
-RUN npm run build
+ARG BUILD_ENV=development
+
+RUN npm run build -- --mode ${BUILD_ENV}
 
 # Use Nginx as the production server
 FROM nginx:alpine
