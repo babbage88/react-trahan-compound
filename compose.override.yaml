@@ -1,6 +1,7 @@
 version: '3.8'
 services:
   haproxy:
+    user: "${PG_UID-1000}:${PG_GID-1001}"
     image: haproxy
     ports:
       - "80:80"
