@@ -1,7 +1,7 @@
-version: "3.8"
+version: "3.9"
 services:
   frontend:
-    image: react-static:${DOCKER_IMG_TAG-dev}
+    image: ${DOCKER_REGISTRY-jtrahan88/}react-static:${DOCKER_IMG_TAG-dev}
     build:
       context: ./frontend/
     environment:
@@ -15,7 +15,7 @@ services:
       placement:
         max_replicas_per_node: 1
   go-backend:
-    image: go-backend:${DOCKER_IMG_TAG-dev}
+    image: ${DOCKER_REGISTRY-jtrahan88/}go-backend:${DOCKER_IMG_TAG-dev}
     build:
       context: ./backend/go-api/
       target: final
