@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Label } from "@/components/ui/label"
+import { Label } from "@/components/ui/label";
 import OptionalNumericInput from './OptionalNumericInput';
 import NumericInput from './NumericInput';
-import { Slider } from '@/components/ui/slider'
+import { Slider } from '@/components/ui/slider';
 import CalculateButton from './CalculateButton';
-import { YearlyTotals } from "@/components/ui/columns";
 
 const CompoundInterestCalculator = () => {
   const navigate = useNavigate();
@@ -15,66 +14,30 @@ const CompoundInterestCalculator = () => {
   const [monthlyContribution, setMonthlyContribution] = useState<number>(0);
   const [interestRate, setInterestRate] = useState<number>(0);
   const [numberOfYears, setNumberOfYears] = useState<number>(0);
-  const [tabledata, setTableData] = useState<YearlyTotals[]>([]);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
-
-  const apiUrl = import.meta.env.VITE_API_URL;
-  const url: string = apiUrl + 'api/compound-interest'
- 
   useEffect(() => {
-    if (location.state) {
-      const { initAmount, monthlyContribution, interestRate, numberOfYears } = location.state;
-      if (initAmount) setInitAmount(initAmount);
-      if (monthlyContribution) setMonthlyContribution(monthlyContribution);
-      if (interestRate) setInterestRate(interestRate);
-      if (numberOfYears) setNumberOfYears(numberOfYears);
-    }
-  }, [location.state]);
+    const params = new URLSearchParams(location.search);
+    const urlInitAmount = params.get('initAmount');
+    const urlMonthlyContribution = params.get('monthlyContribution');
+    const urlInterestRate = params.get('interestRate');
+    const urlNumberOfYears = params.get('numberOfYears');
 
-  const calculateCompoundInterest = async () => {
-    const requestOptions = {
-      method: 'POST',
-      headers: { 'accept': 'application/json', 'Content-Type': 'application/json' },
-      body: JSON.stringify({ initAmount: initAmount, monthlyContribution: monthlyContribution, interestRate: interestRate, numberOfYears: numberOfYears })
-    };
-  
-    try {
-      const response = await fetch(url, requestOptions);
-      if (!response.ok) {
-        throw new Error('Failed to fetch data');
-      }
-      
-      const data = await response.json();
-  
-      // Assuming data is an array of objects with properties matching YearlyTotals type
-      const yearlyTotalsData = data.map((item: YearlyTotals) => ({
-        year: item.year,
-        total: item.total,
-        yearlyContributions: item.yearlyContributions,
-        yearlyInterest: item.yearlyInterest,
-        yearlyIncome: item.yearlyIncome,
-        yearlyTotalGains: item.yearlyTotalGains
-      }));
-  
-      setTableData(yearlyTotalsData);
-      console.log(tabledata);
-  
-      navigate('/calculated', {
-        state: {
-          numberOfYears,
-          monthlyContribution,
-          initAmount,
-          tabledata: yearlyTotalsData,
-          interestRate
-        }
-      });
-    }
-    
-    catch (e) {
-      console.error('There was a problem with the fetch operation:', e);
-    }
-  }
+    if (urlInitAmount) setInitAmount(Number(urlInitAmount));
+    if (urlMonthlyContribution) setMonthlyContribution(Number(urlMonthlyContribution));
+    if (urlInterestRate) setInterestRate(Number(urlInterestRate));
+    if (urlNumberOfYears) setNumberOfYears(Number(urlNumberOfYears));
+  }, [location.search]);
+
+  const navigateToCalculated = () => {
+    const params = new URLSearchParams({
+      initAmount: initAmount.toString(),
+      monthlyContribution: monthlyContribution.toString(),
+      interestRate: interestRate.toString(),
+      numberOfYears: numberOfYears.toString(),
+    });
+
+    navigate(`/calculated?${params.toString()}`, { replace: true });
+  };
 
   return (
     <div className="flex flex-col container space-y-2">
@@ -82,7 +45,6 @@ const CompoundInterestCalculator = () => {
         title={'Initial Amount'}
         symbol={'$'}
         value={initAmount}
-        className='container space-y-1 space-x-2 pl-2 mb-2 gap-1'
         placeholder='Initial Amount'
         setValue={setInitAmount}
       />
@@ -90,27 +52,27 @@ const CompoundInterestCalculator = () => {
         title={'Interest Rate'}
         symbol={'%'}
         value={interestRate}
-        className='container space-y-1 space-x-2 pl-2 mb-2'
         placeholder='Interest Rate'
         setValue={setInterestRate}
       />
       <OptionalNumericInput 
-      title={'Monthly Contribution'} 
-      symbol={'$'} 
-      value={monthlyContribution}
-      className='flex flex-col space-y-2 pl-2 container'
-      placeholder='Monthly Contribution'
-      setValue={setMonthlyContribution} 
+        title={'Monthly Contribution'} 
+        symbol={'$'} 
+        value={monthlyContribution}
+        placeholder='Monthly Contribution'
+        setValue={setMonthlyContribution} 
       />
-
       <Label className='flex pl-3 pt-4'>Years: {numberOfYears}</Label>
-      <Slider max={100} step={1} defaultValue={[numberOfYears]} className='flex pl-4 pt-2' onValueChange={(e) => {
-          setNumberOfYears(Number(e));
-        }}/>
-      
-      <CalculateButton evaluate={calculateCompoundInterest} className='flex space-y-2 space-x-2 py-4 justify-center'/>
+      <Slider 
+        max={100} 
+        step={1} 
+        value={[numberOfYears]} 
+        className='flex pl-4 pt-2' 
+        onValueChange={(e) => setNumberOfYears(Number(e))}
+      />
+      <CalculateButton evaluate={navigateToCalculated} className='flex space-y-2 space-x-2 py-4 justify-center'/>
     </div>
   );
-}
+};
 
 export default CompoundInterestCalculator;
