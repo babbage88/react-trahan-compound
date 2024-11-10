@@ -1,6 +1,6 @@
 # Trahan Compound Interest
 
-This is a simple compound interest calculator that I built in React. I copied some of the components and main App.css from this repo, since I'm not well versed in frontend and do mostly backend and C#/.Net in my day job: https://github.com/jamezmca/compound-calc which itself was made as React beginner project. I did this to help learn react/frontend for some side projects. I want to create an expanded financial planning/wealth management app that will utilize various public API's and will probably rebuild all components from scratch.
+This is a simple compound interest calculator that I built in React. I copied some of the components and main App.js from this repo, since I'm not well versed in frontend and do mostly backend and C#/.Net in my day job: https://github.com/jamezmca/compound-calc which itself was made as React beginner project. I did this to help learn react/frontend for some side projects. I want to create an expanded financial planning/wealth management app that will utilize various public API's and will probably rebuild all components from scratch.
 
 ## Typescript and future changes
 
